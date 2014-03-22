@@ -82,7 +82,7 @@ print("basement done")
 walls = PROD([walls(basement),Q(height)])
 print("walls done")
 columns = PROD([columns(),Q(height)])
-print("columns done")
+#print("columns done")
 
 floor0 = STRUCT([basement,walls,columns])
 
@@ -108,13 +108,9 @@ mezzoArco2 = MAP(circonference2)(INTERVALS(PI)(64))
 sopr = JOIN([mezzoArco,mezzoArco2])
 qlv = DIFFERENCE([PROD([sopr,Q(4)]),MY_CYLINDER([11.91,4])(64),T(1)(-4)(CUBOID([2.5,30,8]))])
 VIEW(qlv)
+
 cer = MAP(circonference)(INTERVALS(2*math.pi)(64))
-
-
-JOIN([mezzoArco,cer])
-
-
-VIEW(qlv)
+mezzaLuna = JOIN([MAP(circonference)(INTERVALS(2*PI)(64)),cer])
 
 cup = R([1,3])(2*PI)(mezzaLuna)
 
