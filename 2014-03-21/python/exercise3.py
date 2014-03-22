@@ -106,18 +106,26 @@ anello = SOLIDIFY(STRUCT([cerchio,cerchioInterno]))
 mezzoArco = MAP(circonference)(INTERVALS(PI)(64)) 
 mezzoArco2 = MAP(circonference2)(INTERVALS(PI)(64))
 sopr = JOIN([mezzoArco,mezzoArco2])
-qlv = PROD([sopr,Q(4)])
+qlv = DIFFERENCE([PROD([sopr,Q(4)]),MY_CYLINDER([11.91,4])(64),T(1)(-4)(CUBOID([2.5,30,8]))])
+VIEW(qlv)
+cer = MAP(circonference)(INTERVALS(2*math.pi)(64))
+
+
+JOIN([mezzoArco,cer])
+
+
 VIEW(qlv)
 
 #cupInt = HALFSPHERE(11.91)([32,32])
-#cil    = MY_CYLINDER([5,height])(32)
+
 #cup = DIFFERENCE([cupExt,cupInt,cil])
-cup = cupExt
+cup = R([1,3])(2*PI)(mezzaLuna)
 
 cupola = STRUCT([ T([1,2,3])([27.23,9.86,height]), cup])
 
 
-floor1 = COLOR(GREEN)(DIFFERENCE([basement,CIRC([11.91,32])([27.23,9.86])]))
+floor1 = STRUCT([cup])
+
 solid_model_3D = STRUCT([floor0, T(3)(height), floor1])
 VIEW(solid_model_3D) 
 
