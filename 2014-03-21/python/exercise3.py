@@ -118,7 +118,7 @@ cupola = STRUCT([ T([1,2,3])([27.23,9.86,height]), cup])
 
 floor1 = STRUCT([cup])
 
-solid_model_3D = STRUCT([floor0, T(3)(height), floor1])
+solid_model_3D = STRUCT([floor0, floor1])
 VIEW(solid_model_3D) 
 
 
