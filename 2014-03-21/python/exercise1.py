@@ -8,6 +8,14 @@ def RECT(args):
 		return T([1,2])([x,y])(MKPOL([[[0,0],[b,0],[b,h],[0,h]],[range(1,5)],None]))
 	return RECT0
 
+def RECTGRIDAROUND(args):
+	b,h = args
+	def RECTGRIDAROUND0(args0):
+		x,y,radius,gradeList = args0
+		conv = 2*PI / 360    
+		return STRUCT([ T([1,2])([x+radius*COS(g*conv),y+radius*SIN(g*conv)])(ROTATE([1,2])(g*conv)(RECT([b,h])([0,0]))) for g in gradeList])
+	return RECTGRIDAROUND0
+
 def CIRC(args):
 	r,n = args
 	def CIRC0(coords):
@@ -18,14 +26,15 @@ def CIRC(args):
 def CIRCGRID(args):
 	r,n = args
 	def CIRCGRID0(coordList):
-		return UNION([CIRC([r,n])([x,y]) for x,y in coordList]) 
+		return STRUCT([CIRC([r,n])([x,y]) for x,y in coordList]) 
 	return CIRCGRID0
 
 def CIRCGRIDAROUND(args):
 	r,n = args
 	def CIRCGRIDAROUND0(args0):
 		x,y,radius,gradeList = args0
-		return UNION([CIRC([r,n])([x+radius*COS(g),y+radius*SIN(g)]) for g in gradeList])
+		conv = 2*PI / 360
+		return STRUCT([CIRC([r,n])([x+radius*COS(g*conv),y+radius*SIN(g*conv)]) for g in gradeList])
 	return CIRCGRIDAROUND0
 
 def basement():
@@ -33,7 +42,7 @@ def basement():
 	circleExt = CIRC([15.91,32])([27.23,9.86])
 	return COLOR(WHITE)(UNION([rectExt,circleExt]))
 
-def walls():
+def walls(basement):
 	#esterno
     a = RECT([14.8,19.72])([0,0])
     b = RECT([7.37,19.06])([8,0.33])
@@ -46,29 +55,31 @@ def walls():
     #interno
     cInt0 = CIRC([11.91,32])([27.23,9.86])
     cIntNES = CIRCGRID([2.39,32])([[27.23,21.77],[39.14,9.86],[27.23,-2.05]]) 
-    emptySpaceInt = UNION([cInt0,cIntNES])
-    #VIEW(emptySpaceInt) 
+    rInt = (RECTGRIDAROUND([2.3,4.5])([27.23,9.86,10.7,[33,123,213,303]]))
+    VIEW(rInt) 
+    emptySpaceInt = UNION([cInt0,cIntNES,rInt])
+    VIEW(emptySpaceInt) 
     emptySpace = UNION([emptySpaceInt,emptySpaceEst])
-    return COLOR(GREEN)(DIFFERENCE([basement(),emptySpace]))
+    return COLOR(GREEN)(DIFFERENCE([basement,emptySpace]))
 
 def columns():
 	delta = 2.48
-	ini = 1.03
+	ini = 1.05
 	x1,x2,x3 = [i*delta+ini for i in range(3)]
 	y1,y2,y3,y4,y5,y6,y7,y8 = [i*delta+ini for i in range(8)]
 	coordsEst = [[x1,y1],[x1,y2],[x1,y3],[x1,y4],[x1,y5],[x1,y6],[x1,y7],[x1,y8],
 	             [x2,y1],[x2,y3],[x2,y6],[x2,y8],
 	             [x3,y1],[x3,y3],[x3,y6],[x3,y8]]
 	colEst = CIRCGRID([0.42,32])(coordsEst)
-	gradeInt1 = [0.36,12.35,[41,50,86,94,130,139,221,230,266,274,310,319]]
-	gradeInt2 = [0.24,11.34,[18.7,27.2,64,72.7,107.3,116,152.8,161.3,198.7,207.2,244,252.7,287.3,296,332.8,241.3]]
-	gradeInt3 = [0.36,10.7,[15,345]]
-	colInt = UNION([CIRCGRIDAROUND([r,16])([27.23,9.86,radius,grade]) for r,radius,grade in [gradeInt1,gradeInt2,gradeInt3]])
-	return COLOR(RED)(UNION([colInt,colEst]))
+	colInt1 = CIRCGRIDAROUND([0.36,32])([27.23,9.86,12.35,[41,50,86,94,130,139,221,230,266,274,310,319]])
+	colInt2 = CIRCGRIDAROUND([0.24,32])([27.23,9.86,11.34,[18.7,27.2,64,72.7,107.3,116,152.8,161.3,198.7,207.2,244,252.7,287.3,296,332.8,341.3]])
+	colInt3 = CIRCGRIDAROUND([0.36,32])([27.23,9.86,10.7,[15,345]])
+	colInt = STRUCT([colInt1,colInt2,colInt3])
+	return COLOR(RED)(STRUCT([colInt,colEst]))
 
 basement = basement()
 print("basement done")
-walls = walls()
+walls = walls(basement)
 print("walls done")
 columns = columns()
 print("columns done")
@@ -78,9 +89,6 @@ VIEW(floor0)
 
 
 
-#def mkFloor1():
-#	return STRUCT([DIFFERENCE([border(1),border(0.9)])])
-
-#floor1 = mkFloor1()
-#two_and_half_model = STRUCT([floor0, T(3)(5)(floor1)])
+#floor1 = basement
+#two_and_half_model = STRUCT([floor0, T(3)(10), floor1])
 #VIEW(two_and_half_model) 
