@@ -56,9 +56,7 @@ def walls(basement):
     cInt0 = CIRC([11.91,32])([27.23,9.86])
     cIntNES = CIRCGRID([2.39,32])([[27.23,21.77],[39.14,9.86],[27.23,-2.05]]) 
     rInt = (RECTGRIDAROUND([2.3,4.5])([27.23,9.86,10.7,[33,123,213,303]]))
-    VIEW(rInt) 
     emptySpaceInt = UNION([cInt0,cIntNES,rInt])
-    VIEW(emptySpaceInt) 
     emptySpace = UNION([emptySpaceInt,emptySpaceEst])
     return COLOR(GREEN)(DIFFERENCE([basement,emptySpace]))
 
@@ -87,8 +85,6 @@ print("columns done")
 floor0 = STRUCT([basement,walls,columns])
 VIEW(floor0)
 
-
-
-#floor1 = basement
-#two_and_half_model = STRUCT([floor0, T(3)(10), floor1])
-#VIEW(two_and_half_model) 
+floor1 = COLOR(GREEN)(DIFFERENCE([basement,CIRC([11.91,32])([27.23,9.86])]))
+two_and_half_model = STRUCT([floor0, T(3)(30), floor1])
+VIEW(two_and_half_model) 
