@@ -82,11 +82,9 @@ print("basement done")
 walls = PROD([walls(basement),Q(height)])
 print("walls done")
 columns = PROD([columns(),Q(height)])
-#print("columns done")
+print("columns done")
 
 floor0 = STRUCT([basement,walls,columns])
-
-
 
 
 def circonference(p):
@@ -111,14 +109,11 @@ qlv = DIFFERENCE([PROD([sopr,Q(4)]),MY_CYLINDER([11.91,4])(64),T(1)(-4)(CUBOID([
 cer = MAP(circonference)(INTERVALS(2*math.pi)(64))
 mezzaLuna = JOIN([qlv,cer])
 
-cup = R([1,3])(2*PI)(mezzaLuna)
+cupola = T([1,2])([27.23,9.86])(R([1,3])(2*PI)(mezzaLuna))
 
-cupola = STRUCT([ T([1,2,3])([27.23,9.86,height]), cup])
+floor1 = STRUCT([COLOR(GREEN)(DIFFERENCE([basement,CIRC([11.91,32])([27.23,9.86])])),cupola])
 
-
-floor1 = STRUCT([cup])
-
-solid_model_3D = STRUCT([floor0, floor1])
+solid_model_3D = STRUCT([floor0, T(3)(height)(floor1)])
 VIEW(solid_model_3D) 
 
 
