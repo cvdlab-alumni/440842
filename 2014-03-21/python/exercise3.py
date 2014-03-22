@@ -77,14 +77,14 @@ def columns():
 
 height = 15
 
-#basement = basement()
-#print("basement done")
-#walls = PROD([walls(basement),Q(height)])
-#print("walls done")
-#columns = PROD([columns(),Q(height)])
-#print("columns done")
+basement = basement()
+print("basement done")
+walls = PROD([walls(basement),Q(height)])
+print("walls done")
+columns = PROD([columns(),Q(height)])
+print("columns done")
 
-#floor0 = STRUCT([basement,walls,columns])
+floor0 = STRUCT([basement,walls,columns])
 
 
 
@@ -116,9 +116,6 @@ JOIN([mezzoArco,cer])
 
 VIEW(qlv)
 
-#cupInt = HALFSPHERE(11.91)([32,32])
-
-#cup = DIFFERENCE([cupExt,cupInt,cil])
 cup = R([1,3])(2*PI)(mezzaLuna)
 
 cupola = STRUCT([ T([1,2,3])([27.23,9.86,height]), cup])
