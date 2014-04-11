@@ -1,5 +1,5 @@
 from pyplasm import *
-from myfont import *
+from font import *
 
 __HeightPantheon__ = 15
 __SuppHeight__ = __HeightPantheon__ * 0.53
@@ -32,7 +32,13 @@ def CIRCGRID(args):
 		return STRUCT([CIRC([r,n])([x,y]) for x,y in coordList]) 
 	return CIRCGRID0
 
-
+def CIRCGRIDAROUND(args):
+	r,n = args
+	def CIRCGRIDAROUND0(args0):
+		x,y,radius,gradeList = args0
+		conv = 2*PI / 360
+		return STRUCT([CIRC([r,n])([x+radius*COS(g*conv),y+radius*SIN(g*conv)]) for g in gradeList])
+	return CIRCGRIDAROUND0
 
 
 def CAPITAL(args):
