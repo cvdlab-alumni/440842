@@ -4,6 +4,14 @@ from font import *
 __HeightPantheon__ = 15
 __SuppHeight__ = __HeightPantheon__ * 0.53
 
+
+
+
+#######################################################################################################################
+   							              #FUNCTION
+#######################################################################################################################
+
+
 def RECT(args):
 	b,h = args
 	def RECT0(coords):
@@ -79,6 +87,27 @@ def GRADE2COORDS(args):
 		return [[x+radius*COS(g*conv),y+radius*SIN(g*conv)] for g in gradeList]
 	return GRADE2COORDS0
 
+def CIRCONFERENCE(radius):
+	def CIRCONFERENCE0(point):
+		return [radius*cos(point[0]),radius*sin(point[0])]
+	return CIRCONFERENCE0
+
+def MOVE(point):
+	x,y,z = point
+	return [x, y*cos(z), y*sin(z)]
+
+def BALL(radius):
+	semiCerchio = JOIN(MAP(CIRCONFERENCE(radius))(INTERVALS(PI)(32)))
+	sc = PROD([semiCerchio,INTERVALS(PI)(10)])
+	return MAP(MOVE)(sc)
+
+def TRIANGLE(coord):
+	return MKPOL([coord,[range(1,4)],None])
+
+
+#######################################################################################################################
+   							              #FIRST FLOOR
+#######################################################################################################################
 
 def basement():
 	rectExt   = RECT([15.37,19.72])([0,0])
@@ -141,31 +170,9 @@ print("stair is done")
 floor0 = STRUCT([stair,basement,walls,columns])
 
 
-def CIRCONFERENCE(radius):
-	def CIRCONFERENCE0(point):
-		return [radius*cos(point[0]),radius*sin(point[0])]
-	return CIRCONFERENCE0
-
-def MOVE(point):
-	x,y,z = point
-	return [x, y*cos(z), y*sin(z)]
-
-def BALL(radius):
-	semiCerchio = JOIN(MAP(CIRCONFERENCE(radius))(INTERVALS(PI)(32)))
-	sc = PROD([semiCerchio,INTERVALS(PI)(10)])
-	return MAP(MOVE)(sc)
-
-def TRIANGLE(coord):
-	return MKPOL([coord,[range(1,4)],None])
-
-def RECT(args):
-	b,h = args
-	def RECT0(coords):
-		x,y = coords
-		return T([1,2])([x,y])(MKPOL([[[0,0],[b,0],[b,h],[0,h]],[range(1,5)],None]))
-	return RECT0
-
-
+#######################################################################################################################
+   							              #SECOND FLOOR
+#######################################################################################################################
 def dome():
 	arcoExt = MAP(CIRCONFERENCE(15.91))(INTERVALS(PI)(32)) 	
 	arcoInt = MAP(CIRCONFERENCE(11.91))(INTERVALS(PI)(32))
@@ -204,6 +211,8 @@ frontDome = frontDome()
 print("front of dome is done")
 
 floor1 = STRUCT([frontDome,dome])
+
+
 
 
 solid_model_3D = STRUCT([floor0, T(3)(__HeightPantheon__)(floor1)])
