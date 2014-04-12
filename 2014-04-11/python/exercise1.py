@@ -5,12 +5,9 @@ __HeightPantheon__ = 15
 __SuppHeight__ = __HeightPantheon__ * 0.53
 
 
-
-
 #######################################################################################################################
    							              #FUNCTION
 #######################################################################################################################
-
 
 def RECT(args):
 	b,h = args
@@ -48,11 +45,22 @@ def CIRCGRIDAROUND(args):
 		return STRUCT([CIRC([r,n])([x+radius*COS(g*conv),y+radius*SIN(g*conv)]) for g in gradeList])
 	return CIRCGRIDAROUND0
 
+def BASIS(args):
+	basisLenght,radius,basisHeight = args
+	def CAPITAL0(definition):
+		def CAPITAL1(nPizze):
+			nPizze = float(nPizze)
+			pRadius = basisLenght / 2.
+			delta   = (pRadius - radius) / nPizze
+			pHeight = basisHeight / nPizze
+			return STRUCT([ T(3)(basisHeight*n/nPizze)(MY_CYLINDER([pRadius-n*delta,pHeight])(definition)) for n in range(int(nPizze))] )
+		return CAPITAL1
+	return CAPITAL0
 
 def CAPITAL(args):
 	baseLenght,radius,capitalHeight = args
 	def CAPITAL0(definition):
-		up = T([3])([capitalHeight])(RECT([baseLenght,baseLenght])([0,0]))
+		up = T([3])([capitalHeight])( RECT([baseLenght,baseLenght])([0,0]) )
 		down = CIRC([radius,definition])([baseLenght/2.,baseLenght/2.])
 		return JOIN([down,up])
 	return CAPITAL0
@@ -60,22 +68,20 @@ def CAPITAL(args):
 def COLUMN(args):
 	colheight,radius,capLength = args
 	def COLUMN0(definition):
-		def COLUMN1(coords):
-			x,y = coords
 			capHeight = capLength
-			upCap = T([3])([colheight-capHeight])(CAPITAL([capLength,radius,capHeight])(definition))
-			capDownHeight = capLength * 0.3
- 			downCap = T([1,3])([capLength,capDownHeight])(ROTATE([1,3])(PI)(CAPITAL([capLength,radius,capDownHeight])(definition)))
+			cap = T([3])([colheight-capHeight])(CAPITAL([capLength,radius*1.3,capHeight])(definition))
+			basHeight = capLength * 0.5
+ 			bas = T([1,2])([capLength/2.,capLength/2.])(BASIS([capLength,radius,basHeight])(definition)(3))
  			col = PROD([CIRC([radius,definition])([capLength/2.,capLength/2.]),Q(colheight)])
-			return T([1,2])([x,y])(STRUCT([upCap,col,downCap]))
-		return COLUMN1
+			return STRUCT([cap,col,bas])
 	return COLUMN0
 
 
 def COLUMNGRID(args):
 	def COLUMNGRID0(definition):
 		def COLUMNGRID1(coordList):
-			return STRUCT([ COLUMN(args)(definition)([x,y]) for x,y in coordList]) 
+			col = COLUMN(args)(definition)
+			return STRUCT([ T([1,2])([x,y])(col) for x,y in coordList]) 
 		return COLUMNGRID1
 	return COLUMNGRID0
 
@@ -134,7 +140,7 @@ def walls(basement):
 
 def columns(definition):
 	delta = 2.48
-	ini = 0.5
+	ini = 0.7
 	x1,x2,x3 = [i*delta+ini for i in range(3)]
 	y1,y2,y3,y4,y5,y6,y7,y8 = [i*delta+ini for i in range(8)]
 	coordsEst = [[x1,y1],[x1,y2],[x1,y3],[x1,y4],[x1,y5],[x1,y6],[x1,y7],[x1,y8],
@@ -158,21 +164,11 @@ def stair(args):
 	s = STRUCT([T([3])([-height*(plane+1)])( PROD([RECT([15.37+plane,19.72+2*plane])([-plane,-plane]),Q(height)]) ) for plane in range(n)])
 	return  STRUCT([b,s])
 
-basement = basement()
-print("basement is done")
-walls = walls(basement)
-print("walls are done")
-columns = columns(16)
-print("columns are done")
-stair = stair([2,3])
-print("stair is done")
-
-floor0 = STRUCT([stair,basement,walls,columns])
-
 
 #######################################################################################################################
    							              #SECOND FLOOR
 #######################################################################################################################
+
 def dome():
 	arcoExt = MAP(CIRCONFERENCE(15.91))(INTERVALS(PI)(32)) 	
 	arcoInt = MAP(CIRCONFERENCE(11.91))(INTERVALS(PI)(32))
@@ -205,18 +201,34 @@ def frontDome():
 
 	return STRUCT([polBase,poltriang,par,written])
 
-dome = dome()
-print("dome is done")
-frontDome = frontDome()
-print("front of dome is done")
 
-floor1 = STRUCT([frontDome,dome])
+#######################################################################################################################
+   							              #ASSEMBLY THE PANTHEON
+#######################################################################################################################
 
 
 
 
-solid_model_3D = STRUCT([floor0, T(3)(__HeightPantheon__)(floor1)])
-VIEW(solid_model_3D) 
+def pantheon():
+	Basement = basement()
+	print("basement is done")
+	Walls = walls(Basement)
+	print("walls are done")
+	Columns = columns(16)
+	print("columns are done")
+	Stair = stair([2,3])
+	print("stair is done")
+	Floor0 = STRUCT([Stair,Basement,Walls,Columns])
+	Dome = dome()
+	print("dome is done")
+	FrontDome = frontDome()
+	print("front of dome is done")
+	Floor1 = STRUCT([FrontDome,Dome])
+
+	return STRUCT([Floor0, T(3)(__HeightPantheon__)(Floor1)])
+
+#solid_model_3D = pantheon()
+#VIEW(solid_model_3D) 
 
 
 
