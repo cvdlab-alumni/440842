@@ -213,13 +213,10 @@ def frontDome():
 
 
 #######################################################################################################################
-   							              #ASSEMBLY THE PANTHEON
+   							              #ASSEMBLY THE PANTHEON V1
 #######################################################################################################################
 
-
-
-
-def pantheon():
+def pantheonV1():
 	Basement = basement()
 	print("basement is done")
 	Walls = walls(Basement)
@@ -237,8 +234,7 @@ def pantheon():
 
 	return STRUCT([Floor0, T(3)(__HeightPantheon__)(Floor1)])
 
-#solid_model_3D = pantheon()
-#VIEW(solid_model_3D) 
+#VIEW(pantheonV1()) 
 
 
 
