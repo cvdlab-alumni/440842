@@ -80,9 +80,9 @@ def urbanFittings():
 	return STRUCT([sl,bs])
 
 
-VIEW(urbanFittings())
+#VIEW(urbanFittings())
 
 def pantheonV4():
 	return STRUCT([pantheonV3(),T(3)(-__StairsHeight__),urbanFittings()])
 
-#VIEW(pantheonV4())
+VIEW(pantheonV4())
