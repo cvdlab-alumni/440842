@@ -12,8 +12,7 @@ def JUNCTION(args):
 	def JUNCTION0(definition):
 		arcoExt = MAP(CIRCONFERENCE(R))(INTERVALS(PI/2.)(definition)) 	
 		arcoInt = MAP(CIRCONFERENCE(r))(INTERVALS(PI/2.)(definition))
-		arco = SOLIDIFY(STRUCT([arcoExt,arcoInt]))
-		VIEW(arco)
+		arco = JOIN([arcoExt,arcoInt])
 		return PROD([arco,INTERVALS(PI)(depth)])
 	return JUNCTION0
 
@@ -50,9 +49,12 @@ def buShelter(args):
 	rod  = COMP([T(1)(dj),S(2)(-1)])(CUBOID([dj,height,depth]))
 	junc = JUNCTION([dj, 2.*dj, depth])(16)
 
-	return STRUCT([rod,junc])
+	borderRight = STRUCT([rod,junc])
+	borderLeft  = S(1)(-1)(borderRight)
+	roof        = T(2)(dj)(CUBOID([length,dj,depth]))
+	return STRUCT( [borderLeft,roof,T(1)(length)(borderRight)] )
 
-VIEW(buShelter([3,5,5]))
+VIEW(buShelter([3,5,7]))
 
 #######################################################################################################################
    							              #ASSEMBLY THE PANTHEON V4
