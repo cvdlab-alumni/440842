@@ -1,4 +1,3 @@
-from pyplasm import *
 from exercise1 import *
 
 __HeightPantheon__ = 15
@@ -15,9 +14,7 @@ def window(args):
 	inter = T([1,2])([b*0.05,h*0.1])(JOIN(AA(MK)(vertsInt)))
 	w = PROD([DIFFERENCE([est,inter]),Q(0.1)])
 	return COMP([COLOR(BROWN),T(1)(-b/2.),S(2)(-1),R([2,3])(PI/2)])(w)
-	
 
-#VIEW(window([1,3]))
 
 def windows(args):
 	w = COMP([R([1,2])(PI/6),T(2)(15.91)])(window(args))
@@ -25,6 +22,9 @@ def windows(args):
 	return T([1,2,3])([27.23,9.86,__HeightPantheon__*1.05])(ws)
 
 
-newPantheon = STRUCT([pantheon(),windows([0.5,1.5])])
 
-VIEW(newPantheon)
+def newPantheon():
+	return STRUCT([pantheon(),windows([0.5,1.5])])
+
+
+VIEW(newPantheon())

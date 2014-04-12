@@ -174,7 +174,8 @@ def dome():
 		b,h = args
 		verts = [[0,0],[b,0],[b,h],[0,h]]
 		inter = T([1,2])([b*0.05,h*0.1])(JOIN(AA(MK)(verts)))
-		w = COMP([R([1,2])(PI/6),T(2)(15.91),R([2,3])(PI/2)])(PROD([inter,Q(4.5)]))
+		hole = PROD([inter,Q(4.5)])
+		w = COMP([R([1,2])(PI/6), T([1,2,3])([-b/2.,15.91,__HeightPantheon__*0.05]), R([2,3])(PI/2)]) (hole) 
 		return STRUCT( NN(9)([w, R([2,1])(PI/6)]) )
 
 	arcoExt = MAP(CIRCONFERENCE(15.91))(INTERVALS(PI)(16)) 	
@@ -186,7 +187,7 @@ def dome():
 	hole = STRUCT([ MY_CYLINDER([3,50])(16), MY_CYLINDER([20,__SuppHeight__])(16)])
 	cup = DIFFERENCE([semiSfera, hole])
 
-	suppExt = MY_CYLINDER([15.91,__SuppHeight__])(16)
+	suppExt = MY_CYLINDER([15.91,__SuppHeight__])(32)
 	inter = STRUCT( [BALL(11.91),windowHoles([0.5,1.5])] )
 	supp = DIFFERENCE([suppExt,inter])
 
