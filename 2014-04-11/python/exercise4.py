@@ -13,7 +13,7 @@ def JUNCTION(args):
 		arcoExt = MAP(CIRCONFERENCE(R))(INTERVALS(PI/2.)(definition)) 	
 		arcoInt = MAP(CIRCONFERENCE(r))(INTERVALS(PI/2.)(definition))
 		arco = JOIN([arcoExt,arcoInt])
-		return PROD([arco,INTERVALS(PI)(depth)])
+		return PROD([arco,Q(depth)])
 	return JUNCTION0
 
 #######################################################################################################################
@@ -40,7 +40,7 @@ def streetLamps(args):
 
 
 #######################################################################################################################
-   							              #BUS SHELTER
+   							              #BUS STOP
 #######################################################################################################################
 
 def buShelter(args):
@@ -49,23 +49,40 @@ def buShelter(args):
 	rod  = COMP([T(1)(dj),S(2)(-1)])(CUBOID([dj,height,depth]))
 	junc = JUNCTION([dj, 2.*dj, depth])(16)
 
+	background = T([1,2])([-dj,-height])(CUBOID([length+2*dj,height+dj,1]))
 	borderRight = STRUCT([rod,junc])
 	borderLeft  = S(1)(-1)(borderRight)
 	roof        = T(2)(dj)(CUBOID([length,dj,depth]))
-	return STRUCT( [borderLeft,roof,T(1)(length)(borderRight)] )
+	buShelter = STRUCT( [background, borderLeft,roof,T(1)(length)(borderRight)] ) 
+	return COMP([S(2)(-1),R([2,3])(PI/2), T([1,2])([2*dj,height])])(buShelter)
 
-VIEW(buShelter([3,5,7]))
+def buStop(args):
+	def buStop0(args0):
+		r,height,length = args0
+		def buStop1(definition):
+			body = T(2)(r)(MY_CYLINDER([r,height])(definition))
+			head = T([1,3])([-length/2.,height])(CUBOID([length,2*r,length]))
+
+			written = PROD([ OFFSET([0.5,0.25])(TEXT("BUS_STOP")) , Q(0.1) ]) 
+			written = COMP([ COLOR(BLACK),T([1,2,3])([length/3.,2*r,height+length/2.]) ,R([1,1])(PI) , R([2,3])(PI/2), S([1,2])([0.1,0.1]) ])(written)
+			board = T(1)(-10)(STRUCT([body,head,written]))
+			return STRUCT([board,buShelter(args)])
+		return buStop1 
+	return buStop0
 
 #######################################################################################################################
    							              #ASSEMBLY THE PANTHEON V4
 #######################################################################################################################
 
 def urbanFittings():
+	bs = COMP([T([1,2])([-20,-20]),R([1,2])(PI/2)])(buStop([6,10,7])([1,10,8])(16))
 	sl = streetLamps([1,19])(10)
-	return STRUCT([sl])
+	return STRUCT([sl,bs])
 
+
+#VIEW(urbanFittings())
 
 def pantheonV4():
 	return STRUCT([pantheonV3(),T(3)(-__StairsHeight__),urbanFittings()])
 
-#VIEW(pantheonV4())
+VIEW(pantheonV4())
