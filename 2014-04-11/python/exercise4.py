@@ -64,7 +64,7 @@ def buStop(args):
 			head = T([1,3])([-length/2.,height])(CUBOID([length,2*r,length]))
 
 			written = PROD([ OFFSET([0.5,0.25])(TEXT("BUS_STOP")) , Q(0.1) ]) 
-			written = COMP([ COLOR(BLACK),T([1,2,3])([length/3.,2*r,height+length/2.]) ,R([1,1])(PI) , R([2,3])(PI/2), S([1,2])([0.1,0.1]) ])(written)
+			written = COMP([ COLOR(BLACK),T([1,2,3])([length/3.,2*r,height+length/2.]) ,R([1,1])(PI) , R([2,3])(PI/2), S([1,2])([0.15,0.15]) ])(written)
 			board = T(1)(-10)(STRUCT([body,head,written]))
 			return STRUCT([board,buShelter(args)])
 		return buStop1 
@@ -80,9 +80,9 @@ def urbanFittings():
 	return STRUCT([sl,bs])
 
 
-#VIEW(urbanFittings())
+VIEW(urbanFittings())
 
 def pantheonV4():
 	return STRUCT([pantheonV3(),T(3)(-__StairsHeight__),urbanFittings()])
 
-VIEW(pantheonV4())
+#VIEW(pantheonV4())
