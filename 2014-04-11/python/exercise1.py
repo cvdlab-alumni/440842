@@ -3,7 +3,7 @@ from font import *
 
 __HeightPantheon__ = 15
 __SuppHeight__ = __HeightPantheon__ * 0.53
-
+__StairsHeight__ = 6 
 
 #######################################################################################################################
    							              #FUNCTION

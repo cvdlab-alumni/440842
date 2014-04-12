@@ -1,12 +1,14 @@
 from exercise2 import *
 
+__StairsHeight__ = 6
+
 #########################################################################################################
                              # NEIGHBOURING'S HOME
 #########################################################################################################
 
 def home():
 	verts = [[0,0],[4,0],[4,4],[2,6],[0,4]]
-	wall = PROD([JOIN(AA(MK)(verts)), Q(4)])
+	wall = PROD([JOIN(AA(MK)(verts)), Q(6)])
 	door = T(1)(1.5)(CUBOID([1,3]))
 	window = T([1,2])([2.75,1.5])(CUBOID([1,1.5]))
 	Home = STRUCT([ wall , COLOR(RED)(door), COLOR(BLUE)(window) ])
@@ -14,7 +16,7 @@ def home():
 
 
 def neighBuildings():
-	t = T(2)(70)(home())
+	t = T(2)(100)(home())
 	return STRUCT( NN(12)([t, R([2,1])(PI/6)]) )
 
 
@@ -24,6 +26,6 @@ def neighBuildings():
 ####################################################################################################################### 
 
 def pantheonV3():
-	return STRUCT([pantheonV2(),T(3)(-6),neighBuildings()])
+	return STRUCT([pantheonV2(),T(3)(-__StairsHeight__),neighBuildings()])
 
-VIEW(pantheonV3())
+#VIEW(pantheonV3())
