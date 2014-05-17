@@ -61,6 +61,7 @@ def ROTATE_DIAG(angle):
 	return ROTATE_DIAG0
 
 
+
 def MKDOOR(length,left,doorSize):
 	shape = [3,1,1]
 	sizePatterns = [ [left, doorSize , length-left-doorSize],
