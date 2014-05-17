@@ -1,15 +1,16 @@
 from pyplasm import *
 from larcc import *
 
-
-DRAW = COMP([VIEW,STRUCT,MKPOLS])
-
 __depthWall__   = 0.3
+__depthfloor__  = 4*__depthWall__
 __heightFloor__ = 2.8
 
 ###############################################################################################
 #                                 FUNCTION/METHOD
 ###############################################################################################
+
+def DRAW(diagram):
+	return COMP([VIEW,STRUCT,MKPOLS])(diagram)
 
 def VIEW_CELL(diagram):
 	V,CV = diagram
@@ -90,7 +91,7 @@ def MKWINDOW(length,left,windowSize):
 shape = [3,3,2]
 sizePatterns = [ [__depthWall__+2.84, __depthWall__+3.4+__depthWall__,2.84+__depthWall__],
                  [5*__depthWall__,12.23+4*__depthWall__,5*__depthWall__],
-                 [__depthWall__,__heightFloor__]
+                 [__depthfloor__,__heightFloor__]
                ]
 master = assemblyDiagramInit(shape)(sizePatterns)
 
@@ -195,3 +196,6 @@ diagram_3D          = VMR_CELL(master,[left_side,center_side,right_side],[1,4,7]
 
 def build_apartment():
 	return diagram_3D
+
+
+
