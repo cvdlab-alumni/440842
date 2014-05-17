@@ -59,13 +59,14 @@ def mkelevator():
 ##########################################################################################
 
 def mkroof():
-	shape = [4,3,1]
+	shape = [4,2,1]
 	sizePatterns = [ [__distanceBetweenApartment__/2.,__depthWall__+2.84, __depthWall__+3.4+__depthWall__,2.84+__depthWall__],
-                 	 [5*__depthWall__,12.23+4*__depthWall__,5*__depthWall__],
+                 	 [5*__depthWall__,12.23+4*__depthWall__],
                      [__depthfloor__]
             	   ]
 	roof = assemblyDiagramInit(shape)(sizePatterns)
 	VIEW_CELL(roof)
+	roof = REMOVE_CELL(roof,[2,4,6])
 	reverseRoof = SCALE_DIAG([-1,1,1])(roof)
 	final_roof = STRUCT([STRUCT(MKPOLS(roof)) , STRUCT(MKPOLS(reverseRoof))])
 	return T(1)(-__distanceBetweenApartment__/2.)(final_roof)
