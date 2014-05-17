@@ -61,8 +61,6 @@ def ROTATE_DIAG(angle):
 		return (W,CV)
 	return ROTATE_DIAG0
 
-
-
 def MKDOOR(length,left,doorSize):
 	shape = [3,1,1]
 	sizePatterns = [ [left, doorSize , length-left-doorSize],
@@ -105,6 +103,7 @@ balcony        = assemblyDiagramInit(shape)(sizePatterns)
 balcony        = REMOVE_CELL(balcony,[1,3,5,6,7,9,11])
 balconyReverse = SCALE_DIAG([1,-1,1])(balcony)
 master         = VMR_CELL(master,[balcony,balconyReverse],[7,11],[0,1,4,5,12,13,16,17])
+
 ###############################################################################################
 #                                 LEFT_SIDE
 ###############################################################################################
@@ -194,7 +193,7 @@ right_side = VMR_CELL(right_side,[window_0_4,right_center_side,window_0_4,window
 diagram_3D          = VMR_CELL(master,[left_side,center_side,right_side],[1,4,7])
 #DRAW(diagram_3D)
 
-def build_apartment():
+def mkapartment():
 	return diagram_3D
 
 
