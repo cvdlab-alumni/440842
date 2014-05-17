@@ -130,8 +130,6 @@ sizePatterns = [ [__depthWall__,3.4,__depthWall__],
                ]
 center_side = assemblyDiagramInit(shape)(sizePatterns)
 
-VIEW_CELL(center_side)
-
 shape = [3,3,1]
 sizePatterns = [ [1.25,__depthWall__,1.75],
                  [1.6-__depthWall__,__depthWall__,3],
@@ -177,30 +175,22 @@ sizePatterns = [ [1.1-__depthWall__,__depthWall__,1.74],
                  [__heightFloor__]
                ]
 right_center_side = assemblyDiagramInit(shape)(sizePatterns)
-right_center_side = REMOVE_CELL(right_center_side,[1,7])
 
-right_side = VMR_CELL(right_side,[right_center_side],[2],[1,3])
+door_0_2 = MKDOOR(1.1-__depthWall__,0.1*(1.1-__depthWall__),0.8*(1.1-__depthWall__))
+door_4   = ROTATE_DIAG(PI/2)(MKDOOR(1.7,0.35,1))
+right_center_side = VMR_CELL(right_center_side,[door_0_2,door_0_2,door_4],[0,2,4],[1,7]) 
+
+window_0_4 = MKWINDOW(2.84,1,1.5)
+window_6   = ROTATE_DIAG(PI/2)(MKWINDOW(4.6,0.2,1.5))
+window_8   = ROTATE_DIAG(PI/2)(MKWINDOW(5.93,4.23,1.5))
+right_side = VMR_CELL(right_side,[window_0_4,right_center_side,window_0_4,window_6,window_8],[0,2,4,6,8],[1,3])
 
 ###############################################################################################
 #                                 ASSEMBLY
 ###############################################################################################
 
-
 diagram_3D          = VMR_CELL(master,[left_side,center_side,right_side],[1,4,7])
-#diagram_3D          = VMR_CELL(master,[left_side,center_side,right_side],[1,4,7])
+#DRAW(diagram_3D)
 
-DRAW(diagram_3D)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def build_apartment():
+	return diagram_3D
