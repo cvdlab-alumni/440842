@@ -28,6 +28,7 @@ def MERGE_CELL(master,diagrams,toMerge):
 def REMOVE_CELL((V,CV),toRemove):
 	return V,[cell for k,cell in enumerate(CV) if not (k in toRemove)]
 
+
 def VMR_CELL(master, diagrams, toMerge, toRemove=[]):
 	VIEW_CELL(master)
 	assert len(diagrams)==len(toMerge)
@@ -49,13 +50,25 @@ def VMR_CELL(master, diagrams, toMerge, toRemove=[]):
 #                                 MASTER
 ###############################################################################################
 
-shape = [2,1,2]
-sizePatterns = [ [__depthWall__+2.84, __depthWall__+6.24+__depthWall__+__depthWall__],
-                 [12.23+4*__depthWall__],
+shape = [3,3,2]
+sizePatterns = [ [__depthWall__+2.84, __depthWall__+3.4+__depthWall__,2.84+__depthWall__],
+                 [5*__depthWall__,12.23+4*__depthWall__,5*__depthWall__],
                  [__depthWall__,__heightFloor__]
                ]
 
 master = assemblyDiagramInit(shape)(sizePatterns)
+VIEW_CELL(master)
+
+shape = [3,2,2]
+sizePatterns = [ [__depthWall__,3.4,__depthWall__],
+                 [__depthWall__,4*__depthWall__],
+                 [__heightFloor__*0.5,__heightFloor__*0.5]
+               ]
+
+balcony        = assemblyDiagramInit(shape)(sizePatterns)
+balcony = REMOVE_CELL(balcony,[1,3,5,6,7,9,11])
+
+master         = VMR_CELL(master,[balcony],[7],[0,1,4,5,12,13,16,17])
 
 ###############################################################################################
 #                                 LEFT_SIDE
