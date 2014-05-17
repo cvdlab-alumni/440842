@@ -71,15 +71,15 @@ def MKDOOR(length,left,doorSize):
 	door = REMOVE_CELL(door,[1])
 	return door
 
-def MKDOOR(length,left,doorSize):
-	shape = [3,1,1]
-	sizePatterns = [ [left, doorSize , length-left-doorSize],
-					 [__depthWall__],
-                     [__heightFloor__]
-                    ]
-	door = assemblyDiagramInit(shape)(sizePatterns)
-	door = REMOVE_CELL(door,[1])
-	return door
+def MKWINDOW(length,left,windowSize):
+	shape = [3,1,3]
+	sizePatterns = [ [left, windowSize , length-left-windowSize],
+    	             [__depthWall__],
+        	         [__heightFloor__*0.4,__heightFloor__*0.3,__heightFloor__*0.2]
+           		    ]
+	window = assemblyDiagramInit(shape)(sizePatterns)
+	window = REMOVE_CELL(window,[4])
+	return window
 
 
 ###############################################################################################
@@ -122,17 +122,7 @@ sizePatterns = [ [__depthWall__,2.84],
 left_side = assemblyDiagramInit(shape)(sizePatterns)
 
 door = ROTATE_DIAG(PI/2.)(MKDOOR(12.23+2*__depthWall__,5.23,2))
-
-VIEW_CELL(door)
-
-"""WINDOW"""
-shape = [3,1,3]
-sizePatterns = [ [ 1.6, 1.04 , 0.2],
-                 [__depthWall__],
-                 [__heightFloor__*0.4,__heightFloor__*0.3,__heightFloor__*0.2]
-               ]
-window = assemblyDiagramInit(shape)(sizePatterns)
-window = REMOVE_CELL(window,[4])
+window = MKWINDOW(2.84,1.6,1.04)
 
 left_side = VMR_CELL(left_side,[door,window,window],[1,3,5],[4])
 
