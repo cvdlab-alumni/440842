@@ -46,6 +46,42 @@ def VMR_CELL(master, diagrams, toMerge, toRemove=[]):
 	
 	return master
 
+def SCALE_DIAG(vect):
+	def SCALE_DIAG0(diagram):
+		V,CV = diagram
+		W = scalePoints(V,vect)
+		return (W,CV)
+	return SCALE_DIAG0
+
+def ROTATE_DIAG(angle):
+	def ROTATE_DIAG0(diagram):
+		V,CV = SCALE_DIAG([1,-1,1])(diagram)
+		W = [[x*COS(angle)-y*SIN(angle), x*SIN(angle)+y*COS(angle),z] for x,y,z in V] 
+		return (W,CV)
+	return ROTATE_DIAG0
+
+
+def MKDOOR(length,left,doorSize):
+	shape = [3,1,1]
+	sizePatterns = [ [left, doorSize , length-left-doorSize],
+					 [__depthWall__],
+                     [__heightFloor__]
+                    ]
+	door = assemblyDiagramInit(shape)(sizePatterns)
+	door = REMOVE_CELL(door,[1])
+	return door
+
+def MKDOOR(length,left,doorSize):
+	shape = [3,1,1]
+	sizePatterns = [ [left, doorSize , length-left-doorSize],
+					 [__depthWall__],
+                     [__heightFloor__]
+                    ]
+	door = assemblyDiagramInit(shape)(sizePatterns)
+	door = REMOVE_CELL(door,[1])
+	return door
+
+
 ###############################################################################################
 #                                 MASTER
 ###############################################################################################
@@ -57,7 +93,6 @@ sizePatterns = [ [__depthWall__+2.84, __depthWall__+3.4+__depthWall__,2.84+__dep
                ]
 
 master = assemblyDiagramInit(shape)(sizePatterns)
-VIEW_CELL(master)
 
 shape = [3,2,2]
 sizePatterns = [ [__depthWall__,3.4,__depthWall__],
@@ -66,9 +101,13 @@ sizePatterns = [ [__depthWall__,3.4,__depthWall__],
                ]
 
 balcony        = assemblyDiagramInit(shape)(sizePatterns)
-balcony = REMOVE_CELL(balcony,[1,3,5,6,7,9,11])
+balcony        = REMOVE_CELL(balcony,[1,3,5,6,7,9,11])
 
-master         = VMR_CELL(master,[balcony],[7],[0,1,4,5,12,13,16,17])
+
+
+balconyReverse = SCALE_DIAG([1,-1,1])(balcony)
+
+master         = VMR_CELL(master,[balcony,balconyReverse],[7,11],[0,1,4,5,12,13,16,17])
 
 ###############################################################################################
 #                                 LEFT_SIDE
@@ -82,14 +121,10 @@ sizePatterns = [ [__depthWall__,2.84],
 
 left_side = assemblyDiagramInit(shape)(sizePatterns)
 
-"""DOOR"""
-shape = [1,3,1]
-sizePatterns = [ [__depthWall__],
-                 [5.23, 2 , 5+2*__depthWall__],
-                 [__heightFloor__]
-               ]
-door = assemblyDiagramInit(shape)(sizePatterns)
-door = REMOVE_CELL(door,[1])
+door = ROTATE_DIAG(PI/2.)(MKDOOR(12.23+2*__depthWall__,5.23,2))
+
+VIEW_CELL(door)
+
 """WINDOW"""
 shape = [3,1,3]
 sizePatterns = [ [ 1.6, 1.04 , 0.2],
@@ -101,11 +136,39 @@ window = REMOVE_CELL(window,[4])
 
 left_side = VMR_CELL(left_side,[door,window,window],[1,3,5],[4])
 
+
+
+###############################################################################################
+#                                 CENTER_SIDE
+###############################################################################################
+
+
+shape = [3,7,1]
+sizePatterns = [ [__depthWall__,3.4,__depthWall__],
+                 [4.6, __depthWall__, 1.1, __depthWall__, 4.77, __depthWall__, 1.6-__depthWall__],
+                 [__heightFloor__]
+               ]
+
+center_side = assemblyDiagramInit(shape)(sizePatterns)
+
+shape = [3,3,1]
+sizePatterns = [ [1.25,__depthWall__,1.75],
+                 [1.6-__depthWall__,__depthWall__,3],
+                 [__heightFloor__]
+               ]
+
+center_bottom_side = assemblyDiagramInit(shape)(sizePatterns)
+center_bottom_side = REMOVE_CELL(center_bottom_side,[0,2,3,6,8])
+
+
+center_side = VMR_CELL(center_side,[center_bottom_side],[7],[2,9,11,13,16])
+
+
 ###############################################################################################
 #                                 RIGHT_SIDE
 ###############################################################################################
 
-
+"""
 shape = [2,3,1]
 sizePatterns = [ [__depthWall__,2.84],
                  [__depthWall__, 12.23+2*__depthWall__ , __depthWall__],
@@ -115,7 +178,16 @@ sizePatterns = [ [__depthWall__,2.84],
 right_side = assemblyDiagramInit(shape)(sizePatterns)
 
 
-diagram_3D          = VMR_CELL(master,[left_side],[1])
+"""
+
+
+###############################################################################################
+#                                 ASSEMBLY
+###############################################################################################
+
+
+diagram_3D          = VMR_CELL(master,[left_side,center_side],[1,4])
+#diagram_3D          = VMR_CELL(master,[left_side,center_side,right_side],[1,4,7])
 
 DRAW(diagram_3D)
 
