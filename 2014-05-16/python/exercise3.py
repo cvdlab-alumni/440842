@@ -15,6 +15,19 @@ def MERGE_CELL(master,diagrams,toMerge):
 def REMOVE_CELL((V,CV),toRemove):
 	return V,[cell for k,cell in enumerate(CV) if not (k in toRemove)]
 
+
+"""
+  VMR_CELL : funzione per automatizzare la fase di eliminazione delle "cell" di un diagramma master 
+             e la fusione di eventuali "diagrams" che si vogliono fondere al master.
+             master : diagramma master a cui si vogliono fondere o eliminare le "cell"
+             diagrams : lista di diagrammi che si vogliono fondere con il master
+             toMerge : lista di celle del master che si vogliono fondere con i diagrams
+             toRemove : lista di celle del master che si vogliono eliminare
+
+             OSS: la relazione che lega "diagrams" con "toMerge" è data dalla posizione dei suoi elementi,
+                  il diagrams[i] che si vuole fondere alla toMerge[i] cell del master 
+"""
+
 def VMR_CELL(master, diagrams, toMerge, toRemove=[]):
 	VIEW_CELL(master)
 	assert len(diagrams)==len(toMerge)

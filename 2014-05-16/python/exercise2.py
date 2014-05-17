@@ -31,18 +31,32 @@ def mkelevator():
 	return VMR_CELL(elevator, [door], [15], [7,13,17,27])
 
 
+def mkGround():
+	return 
+
+
 def mkbuilding():
 	el = mkelevator()
-	VIEW_CELL(el)
 	el_ground = T(1)(-__distanceBetweenApartment__)(STRUCT(MKPOLS(REMOVE_CELL(el,[15]))))
 	el_floor = T(1)(-__distanceBetweenApartment__)(STRUCT(MKPOLS(REMOVE_CELL(el,[11]))))
+
 	first_floor = T(2)(5*__depthWall__)(STRUCT(MKPOLS(build_first_floor())))
 	first_floor = STRUCT([ COMP([T([1])([-__distanceBetweenApartment__]),S([1])([-1])]) (first_floor) , first_floor , el_ground ])	
+
 	apartment = STRUCT(MKPOLS(build_apartment()))
 	floor = STRUCT([ COMP([T([1])([-__distanceBetweenApartment__]),S([1])([-1])]) (apartment) , apartment, el_floor ])
 	floor = T(3)(__depthfloor__+__heightFloor__)(floor)
 	floors = STRUCT( NN(8)([floor, T([3])(__depthfloor__+__heightFloor__)]))
+
 	return STRUCT([first_floor, floors])  
+
+
+
+
+
+
+
+
 
 
 VIEW(mkbuilding())
