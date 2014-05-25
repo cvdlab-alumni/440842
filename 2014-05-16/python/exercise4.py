@@ -25,12 +25,16 @@ def diagram2cell(diagram,master,cell):
    offset = len(master[0])
    CV = [c for k,c in enumerate(master[1]) if k != cell] 
 
+   
    for c in diagram[1]:
    	for v in c: 
    		extra = []
-   		if not v in eliminated:
+   		if v not in eliminated:
    			extra.append(v+offset)
-   	CV += [extra]
+   	print(extra)
+   	print(extra)
+   	print(extra)
+   	#CV.append([extra])
 
    master = V, CV
    return master

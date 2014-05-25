@@ -29,6 +29,8 @@ def MERGE_CELL(master,diagrams,toMerge):
 def REMOVE_CELL((V,CV),toRemove):
 	return V,[cell for k,cell in enumerate(CV) if not (k in toRemove)]
 
+def SELECT_CELL((V,CV),toSelect):
+	return V,[cell for k,cell in enumerate(CV) if k in toSelect]
 
 def VMR_CELL(master, diagrams, toMerge, toRemove=[]):
 	#VIEW_CELL(master)
