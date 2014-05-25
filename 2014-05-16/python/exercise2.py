@@ -141,6 +141,7 @@ def mkbuilding():
 
 	stair  = mkbuilding_stairs(__depthfloor__+__heightFloor__, __distanceBetweenApartment__)
 	stairs = T([1,2])([-__distanceBetweenApartment__-__depthWall__,__corridorLenght__+__distanceBetweenApartment__])(stair)
+	VIEW(stairs)
 	return STRUCT([ground,first_floor, floors, roof, stairs])  
 
 
