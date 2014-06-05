@@ -41,21 +41,24 @@
         camera.up = new THREE.Vector3(0,0,1);
         camera.lookAt(scene.position);
 
-
         // add subtle ambient lighting
         var ambiColor = "#0c0c0c";
         var ambientLight = new THREE.AmbientLight(ambiColor);
         scene.add(ambientLight);
-
-        var lightColor = "#ffffff";
-
+        
         var axisHelper = new THREE.AxisHelper(4);
         scene.add(axisHelper);
+
+        // create the ground plane
+        var planeGeometry = new THREE.PlaneGeometry(60,20,1,1);
+        var planeMaterial =    new THREE.MeshLambertMaterial({color: 0xffffff});
+        var plane = new THREE.Mesh(planeGeometry,planeMaterial);
+        plane.receiveShadow  = true;
+        scene.add(plane);
 
         function mkJoint (radius, height) {
           var joint = new THREE.Object3D();
           
-
           var sphereGeometry = new THREE.SphereGeometry(radius, 8, 8);
           var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xdddd33, shading: THREE.FlatShading});
           var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
@@ -97,21 +100,22 @@
           var halfSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
           halfSphere.position.set(0, 0, 3*radius+radius);
           halfSphere.rotation.x = Math.PI/2;
-          
+          halfSphere.castShadow = true;
 
-          var directionalLight = new THREE.DirectionalLight(lightColor);
-          directionalLight.position.set(0, 0, radius/2);
-          directionalLight.intensity = 4;
-          directionalLight.rotation.x = -Math.PI/2;
+          var lightColor = "#ffffff";
+          var spotLight = new THREE.SpotLight(lightColor);
+          spotLight.position.set(0, 0, 2*radius);
+          spotLight.intensity = 2;
+          //spotLight.rotation.x = -Math.PI;
 
 
           joint.add(sphere);
           sphere.add(halfSphere);
-          halfSphere.add(directionalLight);
+          halfSphere.add(spotLight);
 
           joint.sphere = sphere;
           joint.halfSphere = halfSphere;
-          joint.directionalLight = directionalLight;
+          joint.spotLight = spotLight;
 
           return joint;
         }
@@ -120,6 +124,7 @@
         var radius = 1;
 
         var joint1 = mkJoint(radius, height);
+        joint1.position.z = 1;
         scene.add(joint1);
 
         var joint2 = mkJoint(radius, height);
