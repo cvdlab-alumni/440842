@@ -37,9 +37,10 @@
         renderer.shadowMapEnabled = true;
 
         // position and point the camera to the center of the scene
-        camera.position.set(0, 30, 50);
+        camera.position.set(0, 30, 40);
         camera.up = new THREE.Vector3(0,0,1);
         camera.lookAt(scene.position);
+
 
         // add subtle ambient lighting
         var ambiColor = "#0c0c0c";
@@ -47,10 +48,6 @@
         scene.add(ambientLight);
 
         var lightColor = "#ffffff";
-        var directionalLight = new THREE.DirectionalLight(lightColor);
-        directionalLight.position.set(0, 100, 0);
-        directionalLight.intensity = 1;
-        scene.add(directionalLight);
 
         var axisHelper = new THREE.AxisHelper(4);
         scene.add(axisHelper);
@@ -87,15 +84,48 @@
           return joint;
         }
 
+        function mkLamp (radius, height) {
+          var joint = new THREE.Object3D();          
+
+          var sphereGeometry = new THREE.SphereGeometry(radius, 8, 8);
+          var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xdddd33, shading: THREE.FlatShading});
+          var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+          sphere.position.set(0, 0, 0);
+
+          var sphereGeometry = new THREE.SphereGeometry(3*radius, 8, 8, 0, 6.3, Math.PI/2);
+          var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xdddd33, shading: THREE.FlatShading});
+          var halfSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+          halfSphere.position.set(0, 0, 3*radius+radius);
+          halfSphere.rotation.x = Math.PI/2;
+          
+
+          var directionalLight = new THREE.DirectionalLight(lightColor);
+          directionalLight.position.set(0, 0, radius/2);
+          directionalLight.intensity = 4;
+          directionalLight.rotation.x = -Math.PI/2;
+
+
+          joint.add(sphere);
+          sphere.add(halfSphere);
+          halfSphere.add(directionalLight);
+
+          joint.sphere = sphere;
+          joint.halfSphere = halfSphere;
+          joint.directionalLight = directionalLight;
+
+          return joint;
+        }
+
         var height = 6;
         var radius = 1;
+
         var joint1 = mkJoint(radius, height);
         scene.add(joint1);
 
         var joint2 = mkJoint(radius, height);
         joint1.hook.add(joint2);
 
-        var joint3 = mkJoint(radius, height);
+        var joint3 = mkLamp(radius, height);
         joint2.hook.add(joint3);
 
         
@@ -133,9 +163,6 @@
 
         function render() {
           stats.update();
-          // trackballControls.update();
-    
-          // render using requestAnimationFrame
           requestAnimationFrame(render);
           renderer.render(scene, camera);
         }
