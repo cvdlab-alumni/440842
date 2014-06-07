@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
  <head> 
-  <title>Homework 4 - Lamp</title> 
+  <title>Homework 4 - Olivieri Andrea </title> 
   <style>
     body {
       margin: 0;
@@ -21,7 +21,6 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/stats.js/r11/Stats.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
-    <script src="assets/libs/TrackballControls.js"></script>
     <script>
       // once everything is loaded, we run our Three.js stuff.
       $(function () {
@@ -30,31 +29,62 @@
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
         var renderer = new THREE.WebGLRenderer();
-        // var trackballControls = new THREE.TrackballControls(camera);
-
+        
         renderer.setClearColor(new THREE.Color(0xEEEEEE,1.0));
         renderer.setSize(window.innerWidth,window.innerHeight);
         renderer.shadowMapEnabled = true;
+
+        // create the ground plane
+        var planeGeometry = new THREE.PlaneGeometry(100, 100, 1, 1);
+        var planeMaterial = new THREE.MeshLambertMaterial({color: 0xdddd33});
+        var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        plane.receiveShadow = true;
+
+        // add the plane to the scene
+        scene.add(plane);
+
+        // create a cube
+        var cubeGeometry = new THREE.CubeGeometry(4, 4, 4);
+        var cubeMaterial = new THREE.MeshLambertMaterial({color: 0xff0000});
+        var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        cube.castShadow = true;
+
+        // position the cube
+        cube.position.x = -10;
+        cube.position.y = 10;
+        cube.position.z = 0;
+
+        // add the cube to the scene
+        scene.add(cube);
+
+        var sphereGeometry = new THREE.SphereGeometry(4, 20, 20);
+        var sphereMaterial = new THREE.MeshLambertMaterial({color: 0x7777ff});
+        var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+        // position the sphere
+        sphere.position.x = 20;
+        sphere.position.y = 0;
+        sphere.position.z = 2;
+        sphere.castShadow = true;
+
+        // add the sphere to the scene
+        scene.add(sphere);
+
+
 
         // position and point the camera to the center of the scene
         camera.position.set(0, 30, 40);
         camera.up = new THREE.Vector3(0,0,1);
         camera.lookAt(scene.position);
 
-        // add subtle ambient lighting
-        var ambiColor = "#0c0c0c";
-        var ambientLight = new THREE.AmbientLight(ambiColor);
-        scene.add(ambientLight);
-        
-        var axisHelper = new THREE.AxisHelper(4);
-        scene.add(axisHelper);
-
-        // create the ground plane
-        var planeGeometry = new THREE.PlaneGeometry(60,20,1,1);
-        var planeMaterial =    new THREE.MeshLambertMaterial({color: 0xffffff});
-        var plane = new THREE.Mesh(planeGeometry,planeMaterial);
-        plane.receiveShadow  = true;
-        scene.add(plane);
+       
+       
+        var pointColor = "#ffffff";  
+        var spotLight = new THREE.SpotLight(pointColor);
+        spotLight.position.set(100, 100, 100);
+        spotLight.target = scene;
+        spotLight.intensity = 1;
+        scene.add(spotLight);
 
         function mkJoint (radius, height) {
           var joint = new THREE.Object3D();
@@ -109,14 +139,15 @@
           var spotLight = new THREE.SpotLight(pointColor);
           spotLight.castShadow = true;
           spotLight.shadowCameraNear = 1;
-          spotLight.shadowCameraFar = 200;
+          spotLight.shadowCameraFar = 100;
           spotLight.shadowCameraFov = 130;
-          spotLight.position.set(0, 0, 0);
+          spotLight.position.set(0, 0, -3/2*radius);
+          spotLight.exponent = 1;
           spotLight.intensity = 6;
           spotLight.shadowCameraVisible = true;
 
           var target = new THREE.Object3D();
-          target.position = new THREE.Vector3(0,0,10);
+          target.position = new THREE.Vector3(0,0,100);
           spotLight.target = target;
 
           joint.add(sphere);
@@ -132,11 +163,13 @@
           return joint;
         }
 
+
         var height = 6;
         var radius = 1;
 
+        var joint0 = mkBasis()
+
         var joint1 = mkJoint(radius, height);
-        joint1.position.z = 1;
         scene.add(joint1);
 
         var joint2 = mkJoint(radius, height);
@@ -144,8 +177,6 @@
 
         var joint3 = mkLamp(radius, height);
         joint2.hook.add(joint3);
-        
-      
 
         // add the output of the renderer to the html element
         $('body').append(renderer.domElement);
@@ -179,6 +210,9 @@
 
         function render() {
           stats.update();
+      
+    
+          // render using requestAnimationFrame
           requestAnimationFrame(render);
           renderer.render(scene, camera);
         }
