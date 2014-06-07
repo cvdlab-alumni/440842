@@ -63,14 +63,14 @@
         scene.add(sphere);
 
         // position and point the camera to the center of the scene
-        camera.position.set(0, 50, 60);
+        camera.position.set(0, -50, 60);
         camera.up = new THREE.Vector3(0,0,1);
         camera.lookAt(scene.position);
        
         var pointColor = "#ffffff";  
         var spotLight = new THREE.SpotLight(pointColor);
-        spotLight.position.set(100, 100, 100);
-        spotLight.target = scene;
+        spotLight.position.set(100, -100, 100);
+        spotLight.target = plane;
         spotLight.intensity = 1;
         scene.add(spotLight);
 
@@ -78,20 +78,22 @@
         function mkBasis (radius, height) {
           var joint = new THREE.Object3D();
 
-          var cylinderGeometry = new THREE.CylinderGeometry(radius, radius, 5, 8, 8, false);
+          var cylinderGeometry = new THREE.CylinderGeometry(radius, radius, height, 8, 8, false);
           var cylinderMaterial = new THREE.MeshLambertMaterial({color: 0x706565, shading: THREE.FlatShading});
           var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
           cylinder.position.set(0, 0, 0);
           cylinder.rotation.x = Math.PI/2;
 
           var hook = new THREE.Object3D();
-          hook.position.set(0, height/2+radius,0);
+          hook.position.set(0, height, 0);
           hook.rotation.x = -Math.PI/2;
           
 
           joint.add(cylinder);
           cylinder.add(hook);
 
+          joint.radius = radius;
+          joint.height = height;
           joint.cylinder = cylinder;
           joint.hook = hook;
 
@@ -179,12 +181,12 @@
         var height = 6;
         var radius = 1;
 
-        var joint0 = mkBasis(4*radius, height/6); 
-        scene.add(joint0);
+        var basis = mkBasis(4*radius, height/3); 
+        scene.add(basis);
 
         var joint1 = mkJoint(radius, height);
         scene.add(joint1);
-        joint0.hook.add(joint1);
+        basis.hook.add(joint1);
 
         var joint2 = mkJoint(radius, height);
         joint1.hook.add(joint2);
@@ -229,16 +231,17 @@
           joint3.spotLight.castShadow = e;
         });
         gui.add(controls, 'x').onChange(function (value) {
-          if(planeSize/2 > value){
-              joint0.cylinder.position.x = value;
+          limit = planeSize/2 - basis.height;
+          if((limit > value) && (-limit < value)){
+              basis.cylinder.position.x = value;
           }
         });
         gui.add(controls, 'y').onChange(function (value) {
-          if(planeSize/2 > value){
-              joint0.cylinder.position.y = value;
+          limit = planeSize/2 - basis.height;
+          if((limit > value) && (-limit < value)){
+              basis.cylinder.position.y = value;
           } 
         });
-
 
 
         function render() {
