@@ -69,7 +69,6 @@
           var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
           cylinder.position.set(0, 0, height / 2 + radius);
           cylinder.rotation.x = Math.PI/2;
-          
 
           var hook = new THREE.Object3D();
           hook.position.set(0, height/2+radius,0);
@@ -98,20 +97,33 @@
           var sphereGeometry = new THREE.SphereGeometry(3*radius, 8, 8, 0, 6.3, Math.PI/2);
           var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xdddd33, shading: THREE.FlatShading});
           var halfSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-          halfSphere.position.set(0, 0, 3*radius+radius);
           halfSphere.rotation.x = Math.PI/2;
+          halfSphere.position.set(0, 0, 4*radius);
           halfSphere.castShadow = true;
 
-          var lightColor = "#ffffff";
-          var spotLight = new THREE.SpotLight(lightColor);
-          spotLight.position.set(0, 0, 2*radius);
-          spotLight.intensity = 2;
-          //spotLight.rotation.x = -Math.PI;
+          var hook = new THREE.Object3D();
+          hook.position.set(0, -radius, 0);
+          hook.rotation.x = -Math.PI/2;
 
+          var pointColor = "#ffffff";
+          var spotLight = new THREE.SpotLight(pointColor);
+          spotLight.castShadow = true;
+          spotLight.shadowCameraNear = 1;
+          spotLight.shadowCameraFar = 200;
+          spotLight.shadowCameraFov = 130;
+          spotLight.position.set(0, 0, 0);
+          spotLight.intensity = 6;
+          spotLight.shadowCameraVisible = true;
+
+          var target = new THREE.Object3D();
+          target.position = new THREE.Vector3(0,0,10);
+          spotLight.target = target;
 
           joint.add(sphere);
           sphere.add(halfSphere);
-          halfSphere.add(spotLight);
+          halfSphere.add(hook);
+          hook.add(spotLight);
+          spotLight.add(target);
 
           joint.sphere = sphere;
           joint.halfSphere = halfSphere;
@@ -132,9 +144,7 @@
 
         var joint3 = mkLamp(radius, height);
         joint2.hook.add(joint3);
-
         
-
       
 
         // add the output of the renderer to the html element
@@ -147,6 +157,7 @@
           this.delta = 0.0;
           this.epsilon = 0.0;
         };
+
 
         var gui = new dat.GUI();
         gui.add(controls, 'alpha', 0.0, 2*Math.PI).onChange(function (value) {
