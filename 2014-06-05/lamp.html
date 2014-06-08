@@ -91,6 +91,7 @@
         var lamp = mkLamp(radius, height);
         joint2.hook.add(lamp);
 
+
         // add the output of the renderer to the html element
         $('body').append(renderer.domElement);
 
@@ -130,18 +131,18 @@
           }
         });
         gui.add(controls, 'x').onChange(function (value) {
-          limit = planeSize/2 - basis.height;
+          var limit = planeSize/2 - basis.height;
           if((limit > value) && (-limit < value)){
-              basis.cylinder.position.x = value;
+            basis.cylinder.position.x = value;
           }
         });
         gui.add(controls, 'y').onChange(function (value) {
-          limit = planeSize/2 - basis.height;
+          var limit = planeSize/2 - basis.height;
           if((limit > value) && (-limit < value)){
-              basis.cylinder.position.y = value;
-          } 
-        });
+            basis.cylinder.position.y = value;
+          }
 
+        });
 
         function render() {
           stats.update();

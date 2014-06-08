@@ -68,7 +68,7 @@ function mkLamp (radius, height) {
      sphere.receiveShadow = true;
 
      var sphereGeometry = new THREE.SphereGeometry(3*radius, 8, 8, 0, 6.3, Math.PI/2);
-     var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xdddd33, shading: THREE.FlatShading});
+     var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xcccccc, shading: THREE.FlatShading});
      var halfSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
      halfSphere.rotation.x = Math.PI/2;
      halfSphere.position.set(0, 0, 4*radius);
@@ -85,13 +85,24 @@ function mkLamp (radius, height) {
      spotLight.shadowCameraNear = 1;
      spotLight.shadowCameraFar = 100;
      spotLight.shadowCameraFov = 130;
-     spotLight.position.set(0, 0, -3/2*radius);
+     spotLight.position.set(0, 0, -2*radius);
      spotLight.exponent = 1;
-     spotLight.intensity = 6;
-     spotLight.shadowCameraVisible = true;
+     spotLight.intensity = 5;
+     spotLight.angle = Math.PI/2;
 
-     var target = new THREE.Object3D();
-     target.position = new THREE.Vector3(0,0,100);
+   //  var target = new THREE.Object3D();
+   //  target.position = new THREE.Vector3(0,0,100);
+     
+
+     var sphereGeometry = new THREE.SphereGeometry(2*radius, 8, 8);
+     var sphereMaterial = new THREE.MeshPhongMaterial( { ambient: 0x030303, color: 0xffffff, specular: 0x009900, shininess: 30, shading: THREE.FlatShading } );
+     sphereMaterial.transparent = true;
+     sphereMaterial.opacity = 0.6;
+     var target = new THREE.Mesh(sphereGeometry, sphereMaterial);
+     target.position.set(0, 0, 2*radius);
+     target.castShadow = false;
+     target.receiveShadow = false;
+
      spotLight.target = target;
 
      joint.add(sphere);
