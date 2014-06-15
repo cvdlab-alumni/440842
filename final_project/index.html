@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+ <head> 
+  <title>Final Project. Andrea Olivieri </title> 
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #stats {  /* Align stats top-left */
+      position: absolute;
+      left: 0px;
+      top: 0px;
+    }
+  </style> 
+  </head> 
+  <body>
+    <!-- JavaScript libraries -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/three.js/r67/three.min.js"></script> 
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/stats.js/r11/Stats.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
+    <script>
+      $(function () {
+
+        var stats = initStats();
+       
+        var scene = new THREE.Scene();
+  
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setClearColor(new THREE.Color(0xEEEEEE,1.0));
+        renderer.setSize(window.innerWidth,window.innerHeight);
+        renderer.shadowMapEnabled = true;
+
+        var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
+        camera.position.set(0, -50, 60);
+        camera.up = new THREE.Vector3(0,0,1);
+        camera.lookAt(scene.position);
+
+        var ambient = new THREE.AmbientLight( 0x101030 );
+        scene.add( ambient );
+
+        var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+        directionalLight.position.set( 0, 0, 1 );
+        scene.add( directionalLight );
+
+        // texture
+        var manager = new THREE.LoadingManager();
+        manager.onProgress = function ( item, loaded, total ) {
+
+          console.log( item, loaded, total );
+
+        };
+
+        var texture = new THREE.Texture();
+
+        var loader = new THREE.ImageLoader( manager );
+        loader.load( 'images/wall.jpg', function ( image ) {
+
+          texture.image = image;
+          texture.needsUpdate = true;
+
+        } );
+
+        // model
+
+        var loader = new THREE.OBJLoader( manager );
+        loader.load( 'obj/master.obj', function ( object ) {
+
+          object.traverse( function ( child ) {
+
+            if ( child instanceof THREE.Mesh ) {
+
+              child.material.map = texture;
+
+            }
+
+          } );
+
+          object.position.y = - 80;
+          scene.add( object );
+
+        } );
+
+
+
+
+        // add the output of the renderer to the html element
+        $('body').append(renderer.domElement);
+
+        var controls = new function () {
+        };
+
+        var gui = new dat.GUI();
+        gui.add(controls, 'alpha', 0.0, 2*Math.PI).onChange(function (value) {
+          joint1.sphere.rotation.z = value; 
+        });
+
+        function render() {
+          stats.update();
+          // render using requestAnimationFrame
+          requestAnimationFrame(render);
+          renderer.render(scene, camera);
+        }
+
+        function initStats() {
+          var stats = new Stats();
+          stats.setMode(0); // 0: fps, 1: ms
+          $('body').append(stats.domElement);
+          return stats;
+        }
+
+        render();
+      });
+    </script>
+ </body>
+</html>

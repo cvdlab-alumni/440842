@@ -193,7 +193,7 @@ right_side = VMR_CELL(right_side,[window_0_4,right_center_side,window_0_4,window
 ###############################################################################################
 
 diagram_3D          = VMR_CELL(master,[left_side,center_side,right_side],[1,4,7])
-#DRAW(diagram_3D)
+DRAW(diagram_3D)
 
 def mkapartment():
 	return diagram_3D
