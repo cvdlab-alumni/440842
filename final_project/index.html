@@ -56,24 +56,17 @@
       camera.up = new THREE.Vector3(0,0,1);
       camera.lookAt(scene.position);
 
-      // load apartment from obj  
-      var apartment = mkApartment(scene);     // SCOMMENTARE
-    
       var projector = new THREE.Projector();
+
+      // load apartment from obj  
+      //var apartment = mkApartment(scene);       
      
-      // Load Lamp 
-      var cLamp = mkCeilingLamp(scene);
-      cLamp.position.x = -30;
-      cLamp.position.y = -30;
-      cLamp.position.z = 38;
-      cLamp.rotation.z = Math.PI; 
-    
-      var cLamp = mkCeilingLamp(scene);
-      cLamp.position.x = 35;
-      cLamp.position.y = 40;
-      cLamp.position.z = 38;
-      cLamp.rotation.z = Math.PI; 
-      
+      // Load Ceiling Lamps
+      //var cLamps = addCeilingLamps(scene); 
+
+      // Load Doors
+      var doors = addDoors(scene); 
+
       // add subtle ambient lighting
       var ambiColor = "#0c0c0c";
       var ambientLight = new THREE.AmbientLight(ambiColor);
@@ -128,14 +121,18 @@
         var raycaster = new THREE.Raycaster(camera.position, 
           vector.sub(camera.position).normalize());
 
-        var intersects = raycaster.intersectObjects([cLamp]);
-
+        /*
+        var intersects = raycaster.intersectObjects(cLamps);
         if (intersects.length > 0) {
           intersects[ 0 ].object.onMouseDown();
         }
-        else{
-          console.log('porcodio');
+*/
+/*
+        intersects = raycaster.intersectObjects(doors);
+        if (intersects.length > 0) {
+          intersects[ 0 ].object.onMouseDown();
         }
+*/
       }
 
     });
