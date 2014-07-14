@@ -6,7 +6,7 @@ function addDoors(scene){
      door1.position.y = -30;
      door1.position.z = 38;
      door1.rotation.z = Math.PI; 
-  */
+    */
      return new Array(door1);
 }
 
@@ -20,8 +20,13 @@ function mkDoor(scene){
         door = event.content;
         door.castShadow = true;
         door.receiveShadow = true;
-       // door.scale.set(10, 10, 10);
+        door.scale.set(0.01, 0.01, 0.01);
         
+        console.log(door);
+
+      //  var texture = THREE.ImageUtils.loadTexture("assets/textures/Doors_Court_Single_D.tga");
+      //  door.children[0].material.map = texture;
+
         scene.add(door);
       });
 
@@ -31,7 +36,7 @@ function mkDoor(scene){
         {side: THREE.DoubleSide}
       );
 
-  return apartment;
+  return door;
 }
 
 /*
