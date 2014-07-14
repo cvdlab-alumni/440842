@@ -52,7 +52,7 @@
       webGLRenderer.shadowMapEnabled = true;
 
       // position and point the camera to the center of the scene
-      camera.position.set(0, -100, 170);
+      camera.position.set(0, -40, 60);
       camera.up = new THREE.Vector3(0,0,1);
       camera.lookAt(scene.position);
 
@@ -67,20 +67,14 @@
       // Load Doors
       var doors = addDoors(scene); 
 
-      // add subtle ambient lighting
-      var ambiColor = "#0c0c0c";
-      var ambientLight = new THREE.AmbientLight(ambiColor);
-      ambientLight.position.set(100, 100, 30);
-      scene.add(ambientLight);
 
-/*
       // add spotlight for the shadows
       var spotLight = new THREE.SpotLight(0xffffff);
       spotLight.position.set(150, 180, 60);
-      spotLight.intensity = 6;
+      spotLight.intensity = 2;
       scene.add(spotLight);
-*/
-      var axisHelper = new THREE.AxisHelper(50);
+
+      var axisHelper = new THREE.AxisHelper(10);
       scene.add(axisHelper);
 
       // Add OnMouseDown Listener
@@ -126,13 +120,13 @@
         if (intersects.length > 0) {
           intersects[ 0 ].object.onMouseDown();
         }
-*/
-/*
+        */
+        
         intersects = raycaster.intersectObjects(doors);
         if (intersects.length > 0) {
           intersects[ 0 ].object.onMouseDown();
         }
-*/
+
       }
 
     });

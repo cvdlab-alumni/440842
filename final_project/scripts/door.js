@@ -10,6 +10,31 @@ function addDoors(scene){
      return new Array(door1);
 }
 
+
+function mkDoor(scene){
+  var door;
+
+  var loader = new THREE.OBJMTLLoader();
+      loader.addEventListener('load', function (event) {
+
+        door = event.content;
+        door.castShadow = true;
+        door.receiveShadow = true;
+       // door.scale.set(10, 10, 10);
+        
+        scene.add(door);
+      });
+
+      loader.load(
+        'assets/models/door.obj', 
+        'assets/models/door.mtl', 
+        {side: THREE.DoubleSide}
+      );
+
+  return apartment;
+}
+
+/*
 function mkDoor(scene){
      var height = 1.8;
      var radius = height*0.05; 
@@ -23,7 +48,7 @@ function mkDoor(scene){
      translateGeometry(pivot2Geometry, new THREE.Vector3(0,height*4/8,0));
      var pivot3Geometry = new THREE.CylinderGeometry(radius, radius, height/8, 16, 16, false);
      translateGeometry(pivot3Geometry, new THREE.Vector3(0,height*7/8,0));
-     var doorGeometry = new THREE.CubeGeometry(basis, height, radius);
+     var doorGeometry = new THREE.BoxGeometry(basis, height, radius);
      translateGeometry(doorGeometry, new THREE.Vector3(basis/2+radius,height/2,0));
 
      geometry.merge(pivot1Geometry);
@@ -36,7 +61,7 @@ function mkDoor(scene){
      door.castShadow = true;
      door.receiveShadow = true;
 
-/*
+
      door.isOpen = false;
      door.onMouseDown = function() { 
        if(this.isOpen){
@@ -46,10 +71,11 @@ function mkDoor(scene){
        }
        this.isOpen = !this.isOpen;
      }
-*/
+
      scene.add(door);
      return door;
 }
+*/
 
 function translateGeometry (geometry, vector) {
     geometry.vertices.forEach(function (v) {
