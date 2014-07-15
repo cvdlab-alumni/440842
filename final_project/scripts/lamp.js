@@ -31,19 +31,19 @@ function mkCeilingLamp(scene, Xaxis, Yaxis){
 
     var radius = 0.3; 
     var height = radius*0.3;
-    var pointColor = "#ffffff";
-    var spotLight = new THREE.SpotLight(pointColor);
+    var spotLight = new THREE.SpotLight(0xffffff);
+
     spotLight.castShadow = true;
-    spotLight.distance = 3.5;
+    spotLight.distance = 5;
     spotLight.position.set(0, 0, height);
     spotLight.exponent = 1;
-    spotLight.intensity = 3;
+    spotLight.intensity = 5;
     spotLight.angle = Math.PI;
     spotLight.position.set(0, -radius-2, 0);
     //spotLight.shadowCameraVisible = true;
     spotLight.target.position.set( Xaxis, Yaxis, -100 );
     //spotLight.shadowCameraNear = 1;
-    spotLight.shadowCameraFar = 4;
+    //spotLight.shadowCameraFar = 4;
     //spotLight.shadowCameraFov = 12;
     spotLight.target.rotation.x = Math.PI;
 
