@@ -1,5 +1,4 @@
 function addApartment(scene){
-
   return mkApartment(scene); 
 }
 
@@ -32,6 +31,10 @@ function mkApartment(scene){
   scene.add(apartment);
   return apartment;
 }
+
+
+
+
 
 
 

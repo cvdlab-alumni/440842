@@ -13,9 +13,7 @@ function addCeilingLamps(scene){
   return new Array(cLamp1,cLamp2,cLamp3,cLamp4,cLamp5,cLamp6,cLamp7,cLamp8,cLamp9,cLamp10); 
 };
 
-
-
-function mkCeilingLamp(scene, Xassis, Yassis){
+function mkCeilingLamp(scene, Xaxis, Yaxis){
 
   var lamp  = new THREE.Object3D();
   lamp.name = 'Lamp';
@@ -27,8 +25,8 @@ function mkCeilingLamp(scene, Xassis, Yassis){
     obj.name = 'objLamp';
     obj.scale.set(0.1, 0.1, 0.1);
     obj.rotation.x += Math.PI/2;
-    obj.position.x = Xassis;
-    obj.position.y = Yassis;
+    obj.position.x = Xaxis;
+    obj.position.y = Yaxis;
     obj.position.z = 4;
 
     var radius = 0.3; 
@@ -36,18 +34,18 @@ function mkCeilingLamp(scene, Xassis, Yassis){
     var pointColor = "#ffffff";
     var spotLight = new THREE.SpotLight(pointColor);
     spotLight.castShadow = true;
-    spotLight.distance = 2;
+    spotLight.distance = 3.5;
     spotLight.position.set(0, 0, height);
-    spotLight.exponent = 0.2;
-    spotLight.intensity = 2;
+    spotLight.exponent = 1;
+    spotLight.intensity = 3;
     spotLight.angle = Math.PI;
     spotLight.position.set(0, -radius-2, 0);
-    spotLight.shadowCameraVisible = true;
-    spotLight.target = new vector3(0,0,-100);
-  //  spotLight.shadowCameraNear = 1;
-  //  spotLight.shadowCameraFar = 20;
-  //  spotLight.shadowCameraFov = 50;
-  //  spotLight.target.rotation.x = Math.PI;
+    //spotLight.shadowCameraVisible = true;
+    spotLight.target.position.set( Xaxis, Yaxis, -100 );
+    //spotLight.shadowCameraNear = 1;
+    spotLight.shadowCameraFar = 4;
+    //spotLight.shadowCameraFov = 12;
+    spotLight.target.rotation.x = Math.PI;
 
     obj.add(spotLight);
     obj.spotLight = spotLight;

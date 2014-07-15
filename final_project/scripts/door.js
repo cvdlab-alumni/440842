@@ -14,39 +14,39 @@ function addDoors(scene){
   return new Array(door1,door2,door3,door4,door5,door6,door7,door8,door9,door10);
 };
 
-function mkDoor(scene, Xassis, Yassis, Xscale, Yscale, Zrotation){
-    var door  = new THREE.Object3D();
-    door.name = 'door';
+function mkDoor(scene, Xaxis, Yaxis, Xscale, Yscale, Zrotation){
+  var door  = new THREE.Object3D();
+  door.name = 'door';
 
-    var loader = new THREE.OBJMTLLoader();
-    loader.addEventListener('load', function (event) 
-    {
-        var obj = event.content; 
-        obj.name = 'objDoor';
-        obj.scale.set(Xscale, Yscale, 1);
-        obj.castShadow = true;
-        obj.receiveShadow = true;
-        obj.isOpen = false;
-        obj.onMouseDown = function() { 
-            if(this.isOpen){
-                this.rotation.z -= Math.PI/2;
-            }else{ 
-                this.rotation.z += Math.PI/2;
-            }
-            this.isOpen = !this.isOpen;
-        }
-        door.add(obj);
-        door.position.x = Xassis;
-        door.position.y = Yassis;
-        door.position.z = 1.2;
-        door.rotation.z = Zrotation
-    });
+  var loader = new THREE.OBJMTLLoader();
+  loader.addEventListener('load', function (event) 
+  {
+    var obj = event.content; 
+    obj.name = 'objDoor';
+    obj.scale.set(Xscale, Yscale, 1);
+    obj.castShadow = true;
+    obj.receiveShadow = true;
+    obj.isOpen = false;
+    obj.onMouseDown = function() { 
+      if(this.isOpen){
+          this.rotation.z -= Math.PI/2;
+      }else{ 
+          this.rotation.z += Math.PI/2;
+      }
+      this.isOpen = !this.isOpen;
+    }
+    door.add(obj);
+    door.position.x = Xaxis;
+    door.position.y = Yaxis;
+    door.position.z = 1.2;
+    door.rotation.z = Zrotation
+  });
 
-    loader.load('assets/models/door.obj', 
-                'assets/models/door.mtl', 
-                {side: THREE.DoubleSide}
-               );
+  loader.load('assets/models/door.obj', 
+              'assets/models/door.mtl', 
+              {side: THREE.DoubleSide}
+             );
 
-    scene.add(door);
-    return door;
+  scene.add(door);
+  return door;
 }

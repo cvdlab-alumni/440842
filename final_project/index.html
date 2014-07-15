@@ -30,6 +30,7 @@
   <script type="text/javascript" src="scripts/apartment.js"></script> 
   <script type="text/javascript" src="scripts/lamp.js"></script> 
   <script type="text/javascript" src="scripts/door.js"></script> 
+  <script type="text/javascript" src="scripts/wallpaper.js"></script> 
   <!-- Javascript code that runs our Three.js examples --> 
   <script>
     // once everything is loaded, we run our Three.js stuff.
@@ -52,7 +53,7 @@
       webGLRenderer.shadowMapEnabled = true;
 
       // position and point the camera to the center of the scene
-      camera.position.set(0, -40, 60);
+      camera.position.set(0, -10, 20);
       camera.up = new THREE.Vector3(0,0,1);
       camera.lookAt(scene.position);
 
@@ -64,12 +65,15 @@
 
       // load apartment from obj  
       var apartment = addApartment(scene);       
+
+      // load apartment from obj  
+      var wallpapers = addWallpapers(scene);       
       
       // Load Ceiling Lamps
-      var cLamps = addCeilingLamps(scene); 
+      //var cLamps = addCeilingLamps(scene); 
 
       // Load Doors
-      var doors = addDoors(scene); 
+      //var doors = addDoors(scene); 
 
       // add spotlight for the shadows
       var spotLight = new THREE.SpotLight(0xffffff);
@@ -116,17 +120,18 @@
         var raycaster = new THREE.Raycaster(camera.position, 
           vector.sub(camera.position).normalize());
 
-        /*
+       /* 
         var intersects = raycaster.intersectObjects(cLamps,true);
         if (intersects.length > 0) {
           intersects[0].object.parent.parent.onMouseDown();
-        }*/
-                
+        }
+               
         intersects = raycaster.intersectObjects(doors,true);
         if (intersects.length > 0) {
           intersects[0].object.parent.parent.onMouseDown();
-        }
-        
+        }  
+
+         */    
       }
 
     });
