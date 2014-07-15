@@ -1,6 +1,43 @@
+function addApartment(scene){
+
+  return mkApartment(scene); 
+}
+
+function mkApartment(scene){
+
+  var apartment  = new THREE.Object3D();
+  apartment.name = 'Apartment';
+
+  var loader = new THREE.OBJMTLLoader();
+  loader.addEventListener('load', function (event) {
+
+    obj = event.content;
+    obj.name = 'objApartment';
+    obj.castShadow = true;
+    obj.receiveShadow = true;
+    obj.children[0].castShadow = true;
+    obj.children[0].receiveShadow = true;  
+    obj.children[0].children[0].castShadow = true;
+    obj.children[0].children[0].receiveShadow = true;
+    obj.children[0].children[0].material.castShadow = true;
+    obj.children[0].children[0].material.receiveShadow = true;
+    
+    apartment.add(obj);
+  });
+  loader.load('assets/models/apartment.obj', 
+              'assets/models/apartment.mtl', 
+              {side: THREE.DoubleSide}
+             );
+
+  scene.add(apartment);
+  return apartment;
+}
+
+
+
 
 /*
-function mkApartment(scene){
+function addApartment(scene){
   var apartment;
 
   var geometry = new THREE.Geometry(); 
@@ -28,38 +65,8 @@ function createMesh(geom, imageFile) {
 */
 
 
-function mkApartment(scene){
-  var apartment;
-
-  var loader = new THREE.OBJMTLLoader();
-      loader.addEventListener('load', function (event) {
-
-        apartment = event.content;
-        apartment.castShadow = true;
-        apartment.receiveShadow = true;
-        apartment.children[0].castShadow = true;
-        apartment.children[0].receiveShadow = true;  
-        apartment.children[0].children[0].castShadow = true;
-        apartment.children[0].children[0].receiveShadow = true;
-        apartment.children[0].children[0].material.castShadow = true;
-        apartment.children[0].children[0].material.receiveShadow = true;
-       // apartment.scale.set(10, 10, 10);
-        console.log(apartment);
-        scene.add(apartment);
-      });
-
-      loader.load(
-        'assets/models/apartment.obj', 
-        'assets/models/apartment.mtl', 
-        {side: THREE.DoubleSide}
-      );
-
-  return apartment;
-}
-
-
 /*
-function mkApartment(scene){
+function addApartment(scene){
   var apartment;
 
   var loader = new THREE.OBJLoader();
