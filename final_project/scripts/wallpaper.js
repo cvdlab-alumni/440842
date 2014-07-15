@@ -23,6 +23,11 @@ function addWallpapers(scene){
 
   //Bathroom Wall
   scene.add(mkWallpaper(tWhiteWall, -1.555, -2.56, 3.5, 2.8, Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, -0.28, -2.56, 3.5, 2.8, -Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, 0.05, -2.56, 3.5, 2.8, Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, 1.835, -2.56, 3.5, 2.8, -Math.PI/2));
+
+  scene.add(mkWallpaper(tWhiteWall, -0.024, -1.125, 0.876, 2.8, 0));
 
   //Living Wall
   scene.add(mkWallpaper(tWhiteWall, -1.87, -5.605, 0.2, 2.8, -Math.PI/2));
@@ -35,13 +40,17 @@ function addWallpapers(scene){
 
   //Big Room Wall
   scene.add(mkWallpaper(tWhiteWall, -1.555, 3.2, 5.1, 2.8, Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, 1.835, 3.2, 5.1, 2.8, -Math.PI/2));
 
   //Balcony Wall Bottom
   scene.add(mkWallpaper(tWhiteWall, -1.555, -4.725, 0.204, 2.8, Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall, -1.555, -5.758, 0.485, 2.8, Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, 1.835, -5.301, 1.4, 2.8, -Math.PI/2));
+
   //Balcony Wall Top
   scene.add(mkWallpaper(tWhiteWall, -1.555, 6.19, 0.3, 2.8, Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall, -1.555, 7.218, 0.419, 2.8, Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, 1.835, 6.73, 1.4, 2.8, -Math.PI/2));
 }
 
 function mkWallpaper(texture, Xaxis, Yaxis, width, height, Zrotation){
