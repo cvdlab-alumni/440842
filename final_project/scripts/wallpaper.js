@@ -22,12 +22,15 @@ function addWallpapers(scene){
   scene.add(mkFloorpaper(tRoomFloor,3.5,-3.4,3.15,4.6));
 
   //Bathroom Wall
-  scene.add(mkWallpaper(tWhiteWall, -1.555, -2.56, 3.5, 2.8, Math.PI/2));
-  scene.add(mkWallpaper(tWhiteWall, -0.28, -2.56, 3.5, 2.8, -Math.PI/2));
-  scene.add(mkWallpaper(tWhiteWall, 0.05, -2.56, 3.5, 2.8, Math.PI/2));
-  scene.add(mkWallpaper(tWhiteWall, 1.835, -2.56, 3.5, 2.8, -Math.PI/2));
-
+  scene.add(mkWallpaper(tWhiteWall, -1.555, -2.56, 3.51, 2.8, Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, -0.28, -2.56, 3.51, 2.8, -Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, 0.05, -2.56, 3.51, 2.8, Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, 1.835, -2.56, 3.51, 2.8, -Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall, -0.024, -1.125, 0.876, 2.8, 0));
+  scene.add(mkWallpaper(tWhiteWall, 1.675, -1.125, 0.33, 2.8, 0));
+  scene.add(mkWallpaper(tWhiteWall, -0.4634, -0.966, 0.318, 2.8, -Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, 0.415, -0.966, 0.318, 2.8, Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, 1.51, -0.966, 0.318, 2.8, -Math.PI/2));
 
   //Living Wall
   scene.add(mkWallpaper(tWhiteWall, -1.87, -5.605, 0.2, 2.8, -Math.PI/2));
@@ -37,10 +40,16 @@ function addWallpapers(scene){
   scene.add(mkWallpaper(tWhiteWall, -4.69, -3.07, 5.2, 2.8, Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall, -4.69, 4.4, 5.7, 2.8, Math.PI/2));
 
+  //Corridor
+  scene.add(mkWallpaper(tWhiteWall, -1.713, -0.805, 0.315, 2.8, Math.PI));
+  scene.add(mkWallpaper(tWhiteWall, -0.024, -0.805, 0.876, 2.8, Math.PI));
+  scene.add(mkWallpaper(tWhiteWall, 1.865, -0.805, 0.71, 2.8, Math.PI));
 
   //Big Room Wall
   scene.add(mkWallpaper(tWhiteWall, -1.555, 3.2, 5.1, 2.8, Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall, 1.835, 3.2, 5.1, 2.8, -Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, 0.441, 0.518, 0.318, 2.8, Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, 1.439, 0.518, 0.318, 2.8, -Math.PI/2));
 
   //Balcony Wall Bottom
   scene.add(mkWallpaper(tWhiteWall, -1.555, -4.725, 0.204, 2.8, Math.PI/2));
@@ -51,6 +60,9 @@ function addWallpapers(scene){
   scene.add(mkWallpaper(tWhiteWall, -1.555, 6.19, 0.3, 2.8, Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall, -1.555, 7.218, 0.419, 2.8, Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall, 1.835, 6.73, 1.4, 2.8, -Math.PI/2));
+
+  //Bottom Room  RIPARTI DA QUI
+  scene.add(mkWallpaper(tWhiteWall, 2.855, -0.966, 0.318, 2.8, -Math.PI/2));
 }
 
 function mkWallpaper(texture, Xaxis, Yaxis, width, height, Zrotation){
