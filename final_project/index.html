@@ -92,31 +92,32 @@
       //var doors = addDoors(scene); 
 
       // add spotlight for the shadows
-      
-   
-
       var spotLight = new THREE.SpotLight(0xffffff);
-      spotLight.position.set(30, 0, 40);
+      spotLight.shadowCameraVisible = true;
+      spotLight.position.set(30, 0, 10);
       spotLight.target.position.set( 0, 0, 0 );
-      spotLight.intensity = 0.3;
+      spotLight.intensity = 0.4;
       scene.add(spotLight);
 
       var spotLight = new THREE.SpotLight(0xffffff);
+      spotLight.shadowCameraVisible = true;
       spotLight.position.set(-30, 0, 40);
       spotLight.target.position.set( 0, 0, 0 );
-      spotLight.intensity = 0.3;
+      spotLight.intensity = 0.4;
       scene.add(spotLight);
 
       var spotLight = new THREE.SpotLight(0xffffff);
+      spotLight.shadowCameraVisible = true;
       spotLight.position.set(0, 30, 40);
       spotLight.target.position.set( 0, 0, 0 );
-      spotLight.intensity = 0.3;
+      spotLight.intensity = 0.4;
       scene.add(spotLight);
 
       var spotLight = new THREE.SpotLight(0xffffff);
+      spotLight.shadowCameraVisible = true;
       spotLight.position.set(0, -30, 40);
       spotLight.target.position.set( 0, 0, 0 );
-      spotLight.intensity = 0.3;
+      spotLight.intensity = 0.4;
       scene.add(spotLight);
     
 
@@ -163,12 +164,12 @@
         var raycaster = new THREE.Raycaster(camera.position, 
           vector.sub(camera.position).normalize());
 
-        /*
+        
         var intersects = raycaster.intersectObjects(cLamps,true);
         if (intersects.length > 0) {
           intersects[0].object.parent.parent.onMouseDown();
         }
-               
+        /*       
         intersects = raycaster.intersectObjects(doors,true);
         if (intersects.length > 0) {
           intersects[0].object.parent.parent.onMouseDown();

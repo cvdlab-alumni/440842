@@ -25,29 +25,32 @@ function mkCeilingLamp(scene, Xaxis, Yaxis){
     obj.name = 'objLamp';
     obj.scale.set(0.1, 0.1, 0.1);
     obj.rotation.x += Math.PI/2;
-    obj.position.x = Xaxis;
-    obj.position.y = Yaxis;
-    obj.position.z = 4;
+    obj.position.set(Xaxis,Yaxis,4);
 
     var radius = 0.3; 
     var height = radius*0.3;
     var spotLight = new THREE.SpotLight(0xffffff);
+
 
     spotLight.castShadow = true;
     spotLight.distance = 5;
     spotLight.position.set(0, 0, height);
     spotLight.exponent = 1;
     spotLight.intensity = 5;
-    spotLight.angle = Math.PI;
-    spotLight.position.set(0, -radius-2, 0);
-    //spotLight.shadowCameraVisible = true;
+    spotLight.angle = Math.PI/2;
+
+    //spotLight.position.set(0, -radius-2, 0);
+    spotLight.position.set(Xaxis, Yaxis, 3.5);
+
+
+    spotLight.shadowCameraVisible = true;
     spotLight.target.position.set( Xaxis, Yaxis, -100 );
-    //spotLight.shadowCameraNear = 1;
-    //spotLight.shadowCameraFar = 4;
-    //spotLight.shadowCameraFov = 12;
+    spotLight.shadowCameraNear = 1;
+    spotLight.shadowCameraFar = 100;
+    spotLight.shadowCameraFov = 2;
     spotLight.target.rotation.x = Math.PI;
 
-    obj.add(spotLight);
+    scene.add(spotLight);
     obj.spotLight = spotLight;
     obj.onMouseDown = function() { 
       this.spotLight.visible = !this.spotLight.visible;
