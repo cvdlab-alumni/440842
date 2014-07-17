@@ -32,6 +32,7 @@
   <script type="text/javascript" src="scripts/lamp.js"></script> 
   <script type="text/javascript" src="scripts/door.js"></script> 
   <script type="text/javascript" src="scripts/wallpaper.js"></script> 
+  <script type="text/javascript" src="scripts/window.js"></script> 
   <!-- Javascript code that runs our Three.js examples --> 
   <script>
     // once everything is loaded, we run our Three.js stuff.
@@ -90,6 +91,9 @@
 
       // Load Doors
       //var doors = addDoors(scene); 
+
+      // Load Windows
+      var windows = addWindows(scene); 
 
       // add spotlight for the shadows
       var spotLight = new THREE.SpotLight(0xffffff);
