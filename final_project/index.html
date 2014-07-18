@@ -87,14 +87,15 @@
       addWallpapers(scene);       
       
       // Load Ceiling Lamps
-      //var cLamps = addCeilingLamps(scene); 
+      var cLamps = addCeilingLamps(scene); 
 
       // Load Doors
-      //var doors = addDoors(scene); 
+      var doors = addDoors(scene); 
 
       // Load Windows
       var windows = addWindows(scene); 
 
+/*
       // add spotlight for the shadows
       var spotLight = new THREE.SpotLight(0xffffff);
       spotLight.shadowCameraVisible = true;
@@ -123,7 +124,7 @@
       spotLight.target.position.set( 0, 0, 0 );
       spotLight.intensity = 0.4;
       scene.add(spotLight);
-    
+*/    
 
       // Add OnMouseDown Listener
       document.addEventListener('mousedown', onDocumentMouseDown, false);
@@ -168,12 +169,12 @@
         var raycaster = new THREE.Raycaster(camera.position, 
           vector.sub(camera.position).normalize());
 
-        
+         
         var intersects = raycaster.intersectObjects(cLamps,true);
         if (intersects.length > 0) {
-          intersects[0].object.parent.parent.onMouseDown();
+          intersects[0].object.parent.parent.parent.onMouseDown();
         }
-        /*       
+        /*      
         intersects = raycaster.intersectObjects(doors,true);
         if (intersects.length > 0) {
           intersects[0].object.parent.parent.onMouseDown();
