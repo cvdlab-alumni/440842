@@ -37,7 +37,7 @@
   <script>
     // once everything is loaded, we run our Three.js stuff.
     $(Document).ready(function () {
-      var clock = new THREE.Clock();
+      //var clock = new THREE.Clock();
 
       var stats = initStats();
 
@@ -87,7 +87,7 @@
       addWallpapers(scene);       
       
       // Load Ceiling Lamps
-      var cLamps = addCeilingLamps(scene); 
+      //var cLamps = addCeilingLamps(scene); 
 
       // Load Doors
       var doors = addDoors(scene); 
@@ -95,7 +95,7 @@
       // Load Windows
       var windows = addWindows(scene); 
 
-/*
+
       // add spotlight for the shadows
       var spotLight = new THREE.SpotLight(0xffffff);
       spotLight.shadowCameraVisible = true;
@@ -124,7 +124,15 @@
       spotLight.target.position.set( 0, 0, 0 );
       spotLight.intensity = 0.4;
       scene.add(spotLight);
-*/    
+      
+
+
+
+      var shape = createMesh(new THREE.ShapeGeometry(drawShape(2.001,2.001,0.501,0.501,1.001,1.001)));
+      shape.rotation.x = Math.PI/2.;
+      // add the sphere to the scene
+      scene.add(shape);
+
 
       // Add OnMouseDown Listener
       document.addEventListener('mousedown', onDocumentMouseDown, false);
@@ -132,11 +140,84 @@
       // add the output of the renderer to the html element
       $('body').append(webGLRenderer.domElement);
 
-      // setup the control gui
-      var controls = new function () {};
-      var gui = new dat.GUI();
+      var controls = new function () {
+          this.X   = 0.001;
+          this.Y   = 0.001;
+          this.Phi = 0;
+          this.basisExt= 2.001; 
+          this.deltaX= 0.501; 
+          this.deltaY= 0.501; 
+          this.basisInt= 1.001; 
+          this.heightInt = 1.001;
+        };
+
+        var gui = new dat.GUI();
+        gui.add(controls, 'X', -10.0, 10.0).onChange(function (value) {
+          shape.position.x = value; 
+        });
+        gui.add(controls, 'Y', -10.0, 10.0).onChange(function (value) {
+          shape.position.y = value; 
+        });
+        gui.add(controls, 'Phi', 0, 4).onChange(function (value) {
+          shape.rotation.y = value * Math.PI/2.; 
+        });
+        gui.add(controls, 'basisExt', -10.0, 10.0).onChange(function (value) {
+          scene.remove(shape);
+          shape = createMesh(new THREE.ShapeGeometry(drawShape(value, 2.8, 
+                  controls.deltaX, controls.deltaY, controls.basisInt, controls.heightInt
+                  )));
+          shape.position.set(controls.X, controls.Y, 1.201);
+          shape.rotation.x = Math.PI/2.;
+          shape.rotation.y = controls.Phi* Math.PI/2.;
+          scene.add(shape); 
+        });
+        gui.add(controls, 'deltaX', 0.001, 10.0).onChange(function (value) {
+          scene.remove(shape);
+          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 2.8, 
+                  value, controls.deltaY, controls.basisInt, controls.heightInt
+                  )));
+          shape.position.set(controls.X, controls.Y, 1.201);
+          shape.rotation.x = Math.PI/2.;
+          shape.rotation.y = controls.Phi* Math.PI/2.;
+          scene.add(shape); 
+        });
+        gui.add(controls, 'deltaY', 0.001, 10.0).onChange(function (value) {
+          scene.remove(shape);
+          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 2.8, 
+                  controls.deltaX, value, controls.basisInt, controls.heightInt
+                  )));
+          shape.position.set(controls.X, controls.Y, 1.201);
+          shape.rotation.x = Math.PI/2.;
+          shape.rotation.y = controls.Phi* Math.PI/2.;
+          scene.add(shape); 
+        });
+        gui.add(controls, 'basisInt', -10.0, 10.0).onChange(function (value) {
+          scene.remove(shape);
+          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 2.8, 
+                  controls.deltaX, controls.deltaY, value, controls.heightInt
+                  )));
+          shape.position.set(controls.X, controls.Y, 1.201);
+          shape.rotation.x = Math.PI/2.;
+          shape.rotation.y = controls.Phi* Math.PI/2.;
+          scene.add(shape); 
+        });
+        gui.add(controls, 'heightInt', -10.0, 10.0).onChange(function (value) {
+          scene.remove(shape);
+          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 2.8, 
+                  controls.deltaX, controls.deltaY, controls.basisInt, value
+                  )));
+          shape.position.set(controls.X, controls.Y, 1.201);
+          shape.rotation.x = Math.PI/2.;
+          shape.rotation.y = controls.Phi* Math.PI/2.;
+          scene.add(shape); 
+        });
+
+
+        
+      
 
       render();
+
 
       function render() {
         stats.update();
@@ -169,12 +250,13 @@
         var raycaster = new THREE.Raycaster(camera.position, 
           vector.sub(camera.position).normalize());
 
-         
+        /* 
         var intersects = raycaster.intersectObjects(cLamps,true);
         if (intersects.length > 0) {
           intersects[0].object.parent.parent.parent.onMouseDown();
         }
-        /*      
+
+             
         intersects = raycaster.intersectObjects(doors,true);
         if (intersects.length > 0) {
           intersects[0].object.parent.parent.onMouseDown();
@@ -182,6 +264,45 @@
 
          */    
       }
+
+
+      function drawShape(basisExt, heightExt, deltaX, deltaY, basisInt, heightInt) {
+
+        var shape = new THREE.Shape();
+        shape.moveTo(0, 0);
+        shape.lineTo(basisExt, 0);
+        shape.lineTo(basisExt, heightExt);
+        shape.lineTo(0, heightExt);
+        shape.lineTo(0, 0);
+        
+
+        var hole1 = new THREE.Path();
+        hole1.moveTo(deltaX, deltaY);
+        hole1.lineTo(deltaX+basisInt, deltaY);
+        hole1.lineTo(deltaX+basisInt, deltaY+heightInt);
+        hole1.lineTo(deltaX, deltaY+heightInt);
+        hole1.lineTo(deltaX, deltaY);
+        shape.holes.push(hole1);
+
+        return shape;
+      }
+
+      function createMesh (geom) {
+
+        // assign two materials
+        var meshMaterial = new THREE.MeshPhongMaterial({color: 0xfff333});
+        //meshMaterial.side = THREE.DoubleSide;
+        //meshMaterial.map  = THREE.ImageUtils.loadTexture("assets/textures/balconyFloor.jpg");
+        var wireFrameMat = new THREE.MeshBasicMaterial();
+        //wireFrameMat.wireframe = true;
+
+        // create a multimaterial
+        var mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [meshMaterial, wireFrameMat]);
+
+        return mesh;
+      }
+
+
 
     });
   </script>  

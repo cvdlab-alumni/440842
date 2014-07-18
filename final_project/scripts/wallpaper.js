@@ -12,6 +12,7 @@ function addWallpapers(scene){
   var tBalconyWall   = THREE.ImageUtils.loadTexture(texturePath+"balconyWall.jpg");
   var tCollectWall   = THREE.ImageUtils.loadTexture(texturePath+"collectWall.jpg");
 
+
   //Floor
   scene.add(mkFloorpaper(tBathroomFloor,   0.1,  -2.7,  3.5, 3.32));
   scene.add(mkFloorpaper(  tLivingFloor, -3.35,   0.6,  3.3, 13.1));
@@ -36,13 +37,17 @@ function addWallpapers(scene){
   scene.add(mkWallpaper(tBathWall,    1.51, -0.966, 0, 0.318, 2.8, -Math.PI/2));
 
   //Living 
+
+  scene.add(mkShapeWallpaper(tWhiteWall, -1.85, -5.699, 0, 3, 2.8, Math.PI, 0.209, 1.24, 1.04, 0.94));
+  scene.add(mkShapeWallpaper(tWhiteWall, -4.72,  7.129, 0, 3, 2.8,       0,  1.619, 1.24, 1.04, 0.94));
+
   scene.add(mkWallpaper(tWhiteWall,  -4.85, -0.465, 0,   0.3, 2.8,    Math.PI));
   scene.add(mkWallpaper(tWhiteWall,  -4.85,  1.529, 0,   0.3, 2.8,          0));
   scene.add(mkWallpaper(tWhiteWall,  -1.86, -5.605, 0, 0.191, 2.8, -Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall,  -1.86,  -2.82, 0,  4.04, 2.8, -Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall,  -1.86,  3.343, 0, 5.972, 2.8, -Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall,  -1.86,   7.07, 0,  0.12, 2.8, -Math.PI/2));
-  scene.add(mkWallpaper(tWhiteWall, -4.699,  -3.07, 0,   5.2, 2.8,  Math.PI/2));
+  scene.add(mkWallpaper(tWhiteWall, -4.699,   -3.1, 0,  5.23, 2.8,  Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall, -4.699,  4.375, 0,   5.7, 2.8,  Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall,  -1.71,  -4.83, 0,   0.3, 2.8,          0));
   scene.add(mkWallpaper(tWhiteWall,  -1.71,  -5.51, 0,   0.3, 2.8,    Math.PI));
@@ -103,6 +108,9 @@ function addWallpapers(scene){
   scene.add(mkWallpaper(tBalconyWall,  2.141,  8.19, -1.201,  1.52,  2.6,  Math.PI/2));
 
   //Top Room
+  scene.add(mkShapeWallpaper(tWhiteWall,  2.08, 7.129, 0,   3, 2.8,          0, 1.059, 1.238, 1.502, 0.94));
+  scene.add(mkShapeWallpaper(tWhiteWall, 4.979, 7.129, 0, 6.2, 2.8, -Math.PI/2, 0.197, 1.238, 1.502, 0.94));
+
   scene.add(mkWallpaper(tWhiteWall, 2.221,  1.05, 0,  0.3, 2.8,  Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall, 2.859,  1.05, 0,  0.3, 2.8, -Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall,  2.14,  4.03, 0, 6.24, 2.8,  Math.PI/2));
@@ -110,6 +118,9 @@ function addWallpapers(scene){
   scene.add(mkWallpaper(tWhiteWall, 3.932, 1.201, 0, 2.15, 2.8,    Math.PI));
 
   //Bottom Room 
+  scene.add(mkShapeWallpaper(tWhiteWall,     5, -5.699, 0,   3, 2.8,    Math.PI, 0.354, 1.238, 1.502, 0.94));
+  scene.add(mkShapeWallpaper(tWhiteWall, 4.979, -1.101, 0, 4.7, 2.8, -Math.PI/2,   2.9, 1.238, 1.502, 0.94));
+
   scene.add(mkWallpaper(tWhiteWall, 2.221, -0.952, 0,  0.3, 2.8,  Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall, 2.859, -0.952, 0,  0.3, 2.8, -Math.PI/2));
   scene.add(mkWallpaper(tWhiteWall,  2.18, -1.101, 0, 0.08, 2.8,          0));
@@ -134,6 +145,14 @@ function mkWallpaper(texture, Xaxis, Yaxis, Zaxis, width, height, Zrotation){
   wall.rotation.set(Math.PI/2. , Zrotation, 0);
   return wall;
 }
+function mkShapeWallpaper(texture, Xaxis, Yaxis, Zaxis, width, height, Zrotation, deltaX, deltaY, basisInt, heightInt){
+  
+  var geomPlane = new THREE.ShapeGeometry(drawShape(width, height, deltaX, deltaY, basisInt, heightInt));
+  var wall      = createMesh(geomPlane, texture);
+  wall.position.set(Xaxis, Yaxis, 1.201 + Zaxis);
+  wall.rotation.set(Math.PI/2. , Zrotation, 0);
+  return wall;
+}
 
 function mkFloorpaper(texture, Xaxis, Yaxis, width, height){
   
@@ -146,9 +165,31 @@ function mkFloorpaper(texture, Xaxis, Yaxis, width, height){
 function createMesh(geom, texture) {
   var mat = new THREE.MeshPhongMaterial();
   mat.map = texture;
+  mat.castShadow     = true;
+  mat.receivedShadow = true;
 
   var mesh = new THREE.Mesh(geom, mat);
   mesh.castShadow     = true;
   mesh.receivedShadow = true;
   return mesh;
+}
+
+function drawShape(basisExt, heightExt, deltaX, deltaY, basisInt, heightInt) {
+
+  var shape = new THREE.Shape();
+  shape.moveTo(0, 0);
+  shape.lineTo(basisExt, 0);
+  shape.lineTo(basisExt, heightExt);
+  shape.lineTo(0, heightExt);
+  shape.lineTo(0, 0);
+
+  var hole = new THREE.Path();
+  hole.moveTo(deltaX, deltaY);
+  hole.lineTo(deltaX+basisInt, deltaY);
+  hole.lineTo(deltaX+basisInt, deltaY+heightInt);
+  hole.lineTo(deltaX, deltaY+heightInt);
+  hole.lineTo(deltaX, deltaY);
+  shape.holes.push(hole);
+
+  return shape;
 }
