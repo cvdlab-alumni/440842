@@ -119,7 +119,6 @@ function mkDesktopPc(scene, Xaxis, Yaxis, Zrotation){
   loader.addEventListener('load', function (event) 
   {  
     var obj = event.content;
-    console.log(obj);
     obj.name = 'objiMacDesktop';
     obj.scale.set(0.07, 0.07, 0.07);
     

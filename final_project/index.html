@@ -141,80 +141,11 @@
       $('body').append(webGLRenderer.domElement);
 
       var controls = new function () {
-        
-        this.X   = 0.001;
-        this.Y   = 0.001;
-        this.Phi = 0;
-        this.basisExt= 2.001; 
-        this.deltaX= 0.501; 
-        this.deltaY= 0.501; 
-        this.basisInt= 1.001; 
-        this.heightInt = 1.001;
-
         //this.Night = true; 
 
         };
 
         var gui = new dat.GUI();
-        gui.add(controls, 'X', -10.0, 10.0).onChange(function (value) {
-          shape.position.x = value; 
-        });
-        gui.add(controls, 'Y', -10.0, 10.0).onChange(function (value) {
-          shape.position.y = value; 
-        });
-        gui.add(controls, 'Phi', 0, 4).onChange(function (value) {
-          shape.rotation.y = value * Math.PI/2.; 
-        });
-        gui.add(controls, 'basisExt', -10.0, 10.0).onChange(function (value) {
-          scene.remove(shape);
-          shape = createMesh(new THREE.ShapeGeometry(drawShape(value, 4, 
-                  controls.deltaX, controls.deltaY, controls.basisInt, controls.heightInt
-                  )));
-          shape.position.set(controls.X, controls.Y, 0);
-          shape.rotation.x = Math.PI/2.;
-          shape.rotation.y = controls.Phi* Math.PI/2.;
-          scene.add(shape); 
-        });
-        gui.add(controls, 'deltaX', 0.001, 10.0).onChange(function (value) {
-          scene.remove(shape);
-          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 4, 
-                  value, controls.deltaY, controls.basisInt, controls.heightInt
-                  )));
-          shape.position.set(controls.X, controls.Y, 0);
-          shape.rotation.x = Math.PI/2.;
-          shape.rotation.y = controls.Phi* Math.PI/2.;
-          scene.add(shape); 
-        });
-        gui.add(controls, 'deltaY', 0.001, 10.0).onChange(function (value) {
-          scene.remove(shape);
-          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 4, 
-                  controls.deltaX, value, controls.basisInt, controls.heightInt
-                  )));
-          shape.position.set(controls.X, controls.Y, 0);
-          shape.rotation.x = Math.PI/2.;
-          shape.rotation.y = controls.Phi* Math.PI/2.;
-          scene.add(shape); 
-        });
-        gui.add(controls, 'basisInt', -10.0, 10.0).onChange(function (value) {
-          scene.remove(shape);
-          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 4, 
-                  controls.deltaX, controls.deltaY, value, controls.heightInt
-                  )));
-          shape.position.set(controls.X, controls.Y, 0);
-          shape.rotation.x = Math.PI/2.;
-          shape.rotation.y = controls.Phi* Math.PI/2.;
-          scene.add(shape); 
-        });
-        gui.add(controls, 'heightInt', -10.0, 10.0).onChange(function (value) {
-          scene.remove(shape);
-          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 4, 
-                  controls.deltaX, controls.deltaY, controls.basisInt, value
-                  )));
-          shape.position.set(controls.X, controls.Y, 0);
-          shape.rotation.x = Math.PI/2.;
-          shape.rotation.y = controls.Phi* Math.PI/2.;
-          scene.add(shape); 
-        });
         /*
         gui.add(controls, 'Night').onChange(function (isNight){
           if(isNight){
@@ -299,45 +230,6 @@
         }      
            */  
       }
-
-
-      function drawShape(basisExt, heightExt, deltaX, deltaY, basisInt, heightInt) {
-
-        var shape = new THREE.Shape();
-        shape.moveTo(0, 0);
-        shape.lineTo(basisExt, 0);
-        shape.lineTo(basisExt, heightExt);
-        shape.lineTo(0, heightExt);
-        shape.lineTo(0, 0);
-        
-
-        var hole1 = new THREE.Path();
-        hole1.moveTo(deltaX, deltaY);
-        hole1.lineTo(deltaX+basisInt, deltaY);
-        hole1.lineTo(deltaX+basisInt, deltaY+heightInt);
-        hole1.lineTo(deltaX, deltaY+heightInt);
-        hole1.lineTo(deltaX, deltaY);
-        shape.holes.push(hole1);
-
-        return shape;
-      }
-
-      function createMesh (geom) {
-
-        // assign two materials
-        var meshMaterial = new THREE.MeshPhongMaterial({color: 0xfff333});
-        //meshMaterial.side = THREE.DoubleSide;
-        //meshMaterial.map  = THREE.ImageUtils.loadTexture("assets/textures/balconyFloor.jpg");
-        var wireFrameMat = new THREE.MeshBasicMaterial();
-        //wireFrameMat.wireframe = true;
-
-        // create a multimaterial
-        var mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [meshMaterial, wireFrameMat]);
-
-        return mesh;
-      }
-
-
 
     });
   </script>  

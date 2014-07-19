@@ -46,7 +46,7 @@ function mkTV(scene, Xaxis, Yaxis, Zrotation){
     tv.add(obj);
   });
   loader.load('assets/models/TV.obj', 
-              '', 
+              'assets/models/TV.mtl', 
               {side: THREE.DoubleSide}
              );
 

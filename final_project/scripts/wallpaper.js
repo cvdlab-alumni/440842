@@ -16,26 +16,32 @@ function addWallpapers(scene){
   var tExternalWall  = THREE.ImageUtils.loadTexture(texturePath+"externalWall.jpg");
 
   //Floor
-  scene.add(mkFloorpaper(tBathroomFloor,   0.1,  -2.7,  3.5, 3.32));
-  scene.add(mkFloorpaper(  tLivingFloor, -3.35,   0.6,  3.3, 13.1));
-  scene.add(mkFloorpaper(  tLivingFloor,   0.2, -0.18,  3.8, 1.72));
-  scene.add(mkFloorpaper(  tLivingFloor,  2.67,  0.05, 1.15,  2.3));
-  scene.add(mkFloorpaper( tCollectFloor,  4.25,     0, 2.01,    2));
-  scene.add(mkFloorpaper( tBalconyFloor,   0.1,   7.3,  3.6,  2.7));
-  scene.add(mkFloorpaper( tBalconyFloor,   0.1,  -5.9,  3.6,  2.7));
-  scene.add(mkFloorpaper(    tRoomFloor,  0.15,  3.32,  3.4, 5.28));
-  scene.add(mkFloorpaper(    tRoomFloor,  3.42,   4.2, 3.15,    6));
-  scene.add(mkFloorpaper(    tRoomFloor,   3.5,  -3.4, 3.15,  4.6));
+  scene.add(mkFloorpaper(tBathroomFloor,   0.1,  -2.7, 0,  3.5, 3.32));
+  scene.add(mkFloorpaper(  tLivingFloor, -3.35,   0.6, 0,  3.3, 13.1));
+  scene.add(mkFloorpaper(  tLivingFloor,   0.2, -0.18, 0,  3.8, 1.72));
+  scene.add(mkFloorpaper(  tLivingFloor,  2.67,  0.05, 0, 1.15,  2.3));
+  scene.add(mkFloorpaper( tCollectFloor,  4.25,     0, 0, 2.01,    2));
+  scene.add(mkFloorpaper( tBalconyFloor,   0.1,   7.3, 0,  3.6,  2.7));
+  scene.add(mkFloorpaper( tBalconyFloor,   0.1,  -5.9, 0,  3.6,  2.7));
+  scene.add(mkFloorpaper(    tRoomFloor,  0.15,  3.32, 0,  3.4, 5.28));
+  scene.add(mkFloorpaper(    tRoomFloor,  3.42,   4.2, 0, 3.15,    6));
+  scene.add(mkFloorpaper(    tRoomFloor,   3.5,  -3.4, 0, 3.15,  4.6));
 
   //External
-  scene.add(mkShapeWallpaper(tExternalWall,    -5, -6.001, -1.201, 3.44, 4,       0, 1.9, 2.45, 1, 0.9));
-  scene.add(mkShapeWallpaper(tExternalWall, -1.55,  7.431, -1.201, 3.44, 4, Math.PI, 0.5, 2.45, 1, 0.9));
-
+  
+  scene.add(mkShapeWallpaper(tExternalWall,     -5, -6.001, -1.201,  3.44, 4,          0,     1.9, 2.45,        1,      0.9));
+  scene.add(mkShapeWallpaper(tExternalWall,   1.84, -6.001, -1.201,  3.44, 4,          0,     1.3, 2.45,      1.5,      0.9));
+  scene.add(mkShapeWallpaper(tExternalWall, -5.001,  7.431, -1.201, 6.717, 4, -Math.PI/2,     5.9,  1.2, 0.816999, 2.799999));
+  scene.add(mkShapeWallpaper(tExternalWall, -5.001,  0.714, -1.201, 6.717, 4, -Math.PI/2, 0.00001,  1.2,    1.183, 2.799999));
+  scene.add(mkShapeWallpaper(tExternalWall,  -1.56,  7.431, -1.201,  3.44, 4,    Math.PI,     0.5, 2.45,        1,      0.9));
+  scene.add(mkShapeWallpaper(tExternalWall,   5.28,  7.431, -1.201,  3.44, 4,    Math.PI,    0.64, 2.45,      1.5,      0.9));
+  scene.add(mkShapeWallpaper(tExternalWall,  5.281, -6.001, -1.201, 6.717, 4,  Math.PI/2,     0.5, 2.45,      1.5,      0.9));
+  scene.add(mkShapeWallpaper(tExternalWall,  5.281,  0.716, -1.201, 6.717, 4,  Math.PI/2,   4.715, 2.45,      1.5,      0.9));
 
 
   //Bathroom 
   scene.add(mkShapeWallpaper(tBathWall, 1.835, -4.3, 0, 1.9,  2.8, Math.PI, 1.07, 1.242, 0.415, 0.936));
-  scene.add(mkShapeWallpaper(tBathWall, -0.2, -4.3, 0, 1.4,  2.8, Math.PI, 0.23, 1.242, 0.415, 0.936));
+  scene.add(mkShapeWallpaper(tBathWall,  -0.2, -4.3, 0, 1.4,  2.8, Math.PI, 0.23, 1.242, 0.415, 0.936));
 
   scene.add(mkWallpaper(tBathWall,  -1.555,  -2.56, 0,  3.51, 2.8,  Math.PI/2));
   scene.add(mkWallpaper(tBathWall,   -0.28,  -2.56, 0,  3.51, 2.8, -Math.PI/2));
@@ -50,7 +56,7 @@ function addWallpapers(scene){
   //Living 
 
   scene.add(mkShapeWallpaper(tWhiteWall, -1.85, -5.699, 0, 3, 2.8, Math.PI, 0.209, 1.24, 1.04, 0.94));
-  scene.add(mkShapeWallpaper(tWhiteWall, -4.72,  7.129, 0, 3, 2.8,       0,  1.619, 1.24, 1.04, 0.94));
+  scene.add(mkShapeWallpaper(tWhiteWall, -4.72,  7.129, 0, 3, 2.8,       0, 1.619, 1.24, 1.04, 0.94));
 
   scene.add(mkWallpaper(tWhiteWall,  -4.85, -0.465, 0,   0.3, 2.8,    Math.PI));
   scene.add(mkWallpaper(tWhiteWall,  -4.85,  1.529, 0,   0.3, 2.8,          0));
@@ -93,8 +99,8 @@ function addWallpapers(scene){
   scene.add(mkWallpaper(tBigRoomWall,  1.439, 5.895, 0,  0.32, 2.8,   -Math.PI/2));
 
   //Balcony Bottom
-  scene.add(mkShapeWallpaper(tWhiteWall, -1.555, -4.623,   0,   1.6,  2.8,       0, 0.715, 1.242, 0.415, 0.936));
-  scene.add(mkShapeWallpaper(tWhiteWall,  0.045, -4.623,   0,   1.8,  2.8,       0,   0.3, 1.242, 0.415, 0.936));
+  scene.add(mkShapeWallpaper(tWhiteWall, -1.555, -4.623, 0, 1.6, 2.8, 0, 0.715, 1.242, 0.415, 0.936));
+  scene.add(mkShapeWallpaper(tWhiteWall,  0.045, -4.623, 0, 1.8, 2.8, 0,   0.3, 1.242, 0.415, 0.936));
 
   scene.add(mkWallpaper(  tWhiteWall, -1.555, -4.725,      0, 0.204,  2.8,  Math.PI/2)); 
   scene.add(mkWallpaper(  tWhiteWall, -1.555, -5.758,      0, 0.485,  2.8,  Math.PI/2));
@@ -105,6 +111,10 @@ function addWallpapers(scene){
   scene.add(mkWallpaper(tBalconyWall, -1.861,  -6.76, -1.201,  1.52,  2.6, -Math.PI/2));
   scene.add(mkWallpaper(tBalconyWall,   0.14,  -7.51, -1.201,     4,  2.6,          0));
   scene.add(mkWallpaper(tBalconyWall,  2.141,  -6.76, -1.201,  1.52,  2.6,  Math.PI/2));
+
+  scene.add(mkFloorpaper(tBalconyWall, -1.709, -6.552,   1.4,     0.3,  1.3));
+  scene.add(mkFloorpaper(tBalconyWall,   0.14, -7.351,   1.4,       4,  0.3));
+  scene.add(mkFloorpaper(tBalconyWall,   1.99, -6.552,   1.4,     0.3,  1.3));
 
   //Balcony Top
   scene.add(mkWallpaper(  tWhiteWall, -1.555,  6.19,      0,   0.3,  2.8,  Math.PI/2));
@@ -118,6 +128,10 @@ function addWallpapers(scene){
   scene.add(mkWallpaper(tBalconyWall, -1.861,  8.19, -1.201,  1.52,  2.6, -Math.PI/2));
   scene.add(mkWallpaper(tBalconyWall,   0.14,  8.95, -1.201,     4,  2.6,    Math.PI));
   scene.add(mkWallpaper(tBalconyWall,  2.141,  8.19, -1.201,  1.52,  2.6,  Math.PI/2));
+
+  scene.add(mkFloorpaper(tBalconyWall, -1.709,      8,   1.4,     0.3,  1.3));
+  scene.add(mkFloorpaper(tBalconyWall,   0.14,   8.78,   1.4,       4,  0.3));
+  scene.add(mkFloorpaper(tBalconyWall,   1.99,      8,   1.4,     0.3,  1.3));
 
   //Top Room
   scene.add(mkShapeWallpaper(tRoomWall,  2.08, 7.129, 0,   3, 2.8,          0, 1.059, 1.238, 1.502, 0.94));
@@ -159,19 +173,19 @@ function mkWallpaper(texture, Xaxis, Yaxis, Zaxis, width, height, Zrotation){
 }
 function mkShapeWallpaper(texture, Xaxis, Yaxis, Zaxis, width, height, Zrotation, deltaX, deltaY, basisInt, heightInt){
   
-  var geomPlane = new THREE.ShapeGeometry(drawShape(width/5., height/5., deltaX/5., deltaY/5., basisInt/5., heightInt/5.));
+  var geomPlane = new THREE.ShapeGeometry(drawShape(width/7., height/7., deltaX/7., deltaY/7., basisInt/7., heightInt/7.));
   var wall      = createMesh(geomPlane, texture);
-  wall.scale.set(5,5,5);
+  wall.scale.set(7,7,7);
   wall.position.set(Xaxis, Yaxis, 1.201 + Zaxis);
   wall.rotation.set(Math.PI/2. , Zrotation, 0);
   return wall;
 }
 
-function mkFloorpaper(texture, Xaxis, Yaxis, width, height){
+function mkFloorpaper(texture, Xaxis, Yaxis, Zaxis, width, height){
   
   var geomPlane    = new THREE.PlaneGeometry(width, height, 4, 4);
   var floor        = createMesh(geomPlane, texture);
-  floor.position.set(Xaxis,Yaxis,1.201);
+  floor.position.set(Xaxis,Yaxis,1.201 + Zaxis);
   return floor;
 }
 
