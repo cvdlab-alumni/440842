@@ -2,9 +2,11 @@ function addBedroomOBJs(scene){
 
   mkDoubleBed(scene, -0.4, 3, -Math.PI/2);
   mkBed(scene, 3.9, -5, 0);
-  mkDesk(scene, 2.6, 5, Math.PI/2);
-  //mkBookcase(scene, 2.6, 3.3, 0);
-
+  mkDesk(scene, 3.4, 5.9, Math.PI/2);
+  mkOfficeChair(scene, 3.5, 5.5, -Math.PI/2);
+  mkDesktopPc(scene, 2.3, 5.5, Math.PI/2);
+  mkBookcase(scene, 2.3, 3.3, 0);
+  mkDresser(scene, 2.45, -3, 0);
 };
 
 function mkDoubleBed(scene, Xaxis, Yaxis, Zrotation){
@@ -59,6 +61,7 @@ function mkBed(scene, Xaxis, Yaxis, Zrotation){
   return bed;
 };
 
+
 function mkDesk(scene, Xaxis, Yaxis, Zrotation){
 
   var desk  = new THREE.Object3D();
@@ -69,42 +72,68 @@ function mkDesk(scene, Xaxis, Yaxis, Zrotation){
   {  
     var obj = event.content;
     obj.name = 'objDesk';
-    obj.scale.set(0.004, 0.004, 0.004);
-    
-    var tDarkWood = THREE.ImageUtils.loadTexture("assets/textures/dark-wood-texture.jpg");
-    var tLightWood = THREE.ImageUtils.loadTexture("assets/textures/light-wood-texture.jpg");
-    /*
-    obj.children[0].material.map = texture;
-    obj.children[1].material.map = texture;
-    obj.children[2].material.map = texture;
-    obj.children[3].material.map = texture;
-    obj.children[4].material.map = texture;
-    obj.children[5].material.map = texture;
-    */
-    obj.children[6].material.map = tLightWood;
-    obj.children[7].material.map = tLightWood;
-    obj.children[8].material.map = tLightWood;
-    obj.children[9].material.map = tLightWood;
-
-    obj.children[10].material.map = tLightWood;
-    obj.children[11].material.map = tLightWood;
-    
-    obj.children[12].material.map = tDarkWood;
-    obj.children[13].material.map = tDarkWood;
-    obj.children[14].material.map = tDarkWood;
-    obj.children[15].material.map = tDarkWood;
-    obj.children[16].material.map = tDarkWood;
+    obj.scale.set(0.6, 0.6, 0.6);
     obj.position.set(Xaxis,Yaxis,1.201);
     obj.rotation.set(Math.PI/2,Zrotation,0);
     desk.add(obj);
   });
   loader.load('assets/models/Desk.obj', 
-              '', 
+              'assets/models/Desk.mtl', 
               {side: THREE.DoubleSide}
              );
 
   scene.add(desk);
   return desk;
+};
+
+function mkOfficeChair(scene, Xaxis, Yaxis, Zrotation){
+
+  var officeChair  = new THREE.Object3D();
+  officeChair.name = 'OfficeChair';
+  
+  var loader = new THREE.OBJMTLLoader();
+  loader.addEventListener('load', function (event) 
+  {  
+    var obj = event.content;
+    obj.name = 'objOfficeChair';
+    obj.scale.set(0.55, 0.55, 0.55);
+    obj.position.set(Xaxis,Yaxis,1.201);
+    obj.rotation.set(Math.PI/2,Zrotation,0);
+    officeChair.add(obj);
+  });
+  loader.load('assets/models/office_chair.obj', 
+              'assets/models/office_chair.mtl', 
+              {side: THREE.DoubleSide}
+             );
+
+  scene.add(officeChair);
+  return officeChair;
+};
+
+function mkDesktopPc(scene, Xaxis, Yaxis, Zrotation){
+
+  var desktopPc  = new THREE.Object3D();
+  desktopPc.name = 'iMac desktop';
+  
+  var loader = new THREE.OBJMTLLoader();
+  loader.addEventListener('load', function (event) 
+  {  
+    var obj = event.content;
+    console.log(obj);
+    obj.name = 'objiMacDesktop';
+    obj.scale.set(0.07, 0.07, 0.07);
+    
+    obj.position.set(Xaxis,Yaxis,2.23);
+    obj.rotation.set(Math.PI/2,Zrotation,0);
+    desktopPc.add(obj);
+  });
+  loader.load('assets/models/iMac desktop.obj', 
+              'assets/models/iMac desktop.mtl', 
+              {side: THREE.DoubleSide}
+             );
+
+  scene.add(desktopPc);
+  return desktopPc;
 };
 
 function mkBookcase(scene, Xaxis, Yaxis, Zrotation){
@@ -130,4 +159,30 @@ function mkBookcase(scene, Xaxis, Yaxis, Zrotation){
 
   scene.add(bookcase);
   return bookcase;
+};
+
+
+function mkDresser(scene, Xaxis, Yaxis, Zrotation){
+
+  var dresser  = new THREE.Object3D();
+  dresser.name = 'Dresser';
+  
+  var loader = new THREE.OBJMTLLoader();
+  loader.addEventListener('load', function (event) 
+  {  
+    var obj = event.content;
+    obj.name = 'objDresser';
+    obj.scale.set(0.003, 0.003, 0.003);
+    
+    obj.position.set(Xaxis,Yaxis,1.53);
+    obj.rotation.set(Math.PI/2,Zrotation,0);
+    dresser.add(obj);
+  });
+  loader.load('assets/models/Dresser.obj', 
+              '', 
+              {side: THREE.DoubleSide}
+             );
+
+  scene.add(dresser);
+  return dresser;
 };

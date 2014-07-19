@@ -72,7 +72,7 @@
 */
       // create a render and set the size
       var webGLRenderer = new THREE.WebGLRenderer();
-      webGLRenderer.setClearColor(new THREE.Color(0x62BDF5, 1.0));
+      webGLRenderer.setClearColor(new THREE.Color(0x021E6C, 1.0));
       webGLRenderer.setSize(window.innerWidth, window.innerHeight);
       webGLRenderer.shadowMapEnabled = true;
     
@@ -85,59 +85,47 @@
 
       // load apartment from obj  
       var apartment = addApartment(scene); 
+      addWallpapers(scene);       
 
       addBathroomOBJs(scene);      
 
       addBedroomOBJs(scene);  
 
       addLivingroomOBJs(scene);    
-
-      // load apartment from obj  
-      addWallpapers(scene);       
       
-      // Load Ceiling Lamps
-      var cLamps;
-      //cLamps = addCeilingLamps(scene); 
+      // Ceiling Lamps
+      //var cLamps = addCeilingLamps(scene);
 
       // Load Doors
-      var doors; 
-      //doors = addDoors(scene); 
+      var doors = addDoors(scene); 
 
       // Load Windows
-      var windows; 
-      windows = addWindows(scene); 
+      var windows = addWindows(scene); 
 
 
       // add spotlight for the shadows
-      var spotLight = new THREE.SpotLight(0xffffff);
-      spotLight.shadowCameraVisible = true;
-      spotLight.position.set(30, 0, 10);
-      spotLight.target.position.set( 0, 0, 0 );
-      spotLight.intensity = 0.4;
-      scene.add(spotLight);
+      var slEst,slOvest,slNord,slSud;
 
-      var spotLight = new THREE.SpotLight(0xffffff);
-      spotLight.shadowCameraVisible = true;
-      spotLight.position.set(-30, 0, 40);
-      spotLight.target.position.set( 0, 0, 0 );
-      spotLight.intensity = 0.4;
-      scene.add(spotLight);
+      //RIMUOVERE PRIMA DELLA CONSEGNA E SBLOCCARE LA MODALITà NOTTE
+      slEst = new THREE.SpotLight(0xffffff);
+      slEst.position.set(30, 0, 10);
+      slEst.intensity = 0.4;
+      scene.add(slEst);
 
-      var spotLight = new THREE.SpotLight(0xffffff);
-      spotLight.shadowCameraVisible = true;
-      spotLight.position.set(0, 30, 40);
-      spotLight.target.position.set( 0, 0, 0 );
-      spotLight.intensity = 0.4;
-      scene.add(spotLight);
+      slOvest = new THREE.SpotLight(0xffffff);  
+      slOvest.position.set(-30, 0, 40);
+      slOvest.intensity = 0.4;
+      scene.add(slOvest);
 
-      var spotLight = new THREE.SpotLight(0xffffff);
-      spotLight.shadowCameraVisible = true;
-      spotLight.position.set(0, -30, 40);
-      spotLight.target.position.set( 0, 0, 0 );
-      spotLight.intensity = 0.4;
-      scene.add(spotLight);
-      
+      slNord = new THREE.SpotLight(0xffffff);
+      slNord.position.set(0, 30, 40);
+      slNord.intensity = 0.4;
+      scene.add(slNord);
 
+      slSud = new THREE.SpotLight(0xffffff);
+      slSud.position.set(0, -30, 40);
+      slSud.intensity = 0.4;
+      scene.add(slSud);
 
 
       var shape = createMesh(new THREE.ShapeGeometry(drawShape(2.001,2.001,0.501,0.501,1.001,1.001)));
@@ -163,7 +151,7 @@
         this.basisInt= 1.001; 
         this.heightInt = 1.001;
 
-        this.timeState = 'Day'; 
+        //this.Night = true; 
 
         };
 
@@ -179,64 +167,88 @@
         });
         gui.add(controls, 'basisExt', -10.0, 10.0).onChange(function (value) {
           scene.remove(shape);
-          shape = createMesh(new THREE.ShapeGeometry(drawShape(value, 2.8, 
+          shape = createMesh(new THREE.ShapeGeometry(drawShape(value, 4, 
                   controls.deltaX, controls.deltaY, controls.basisInt, controls.heightInt
                   )));
-          shape.position.set(controls.X, controls.Y, 1.201);
+          shape.position.set(controls.X, controls.Y, 0);
           shape.rotation.x = Math.PI/2.;
           shape.rotation.y = controls.Phi* Math.PI/2.;
           scene.add(shape); 
         });
         gui.add(controls, 'deltaX', 0.001, 10.0).onChange(function (value) {
           scene.remove(shape);
-          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 2.8, 
+          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 4, 
                   value, controls.deltaY, controls.basisInt, controls.heightInt
                   )));
-          shape.position.set(controls.X, controls.Y, 1.201);
+          shape.position.set(controls.X, controls.Y, 0);
           shape.rotation.x = Math.PI/2.;
           shape.rotation.y = controls.Phi* Math.PI/2.;
           scene.add(shape); 
         });
         gui.add(controls, 'deltaY', 0.001, 10.0).onChange(function (value) {
           scene.remove(shape);
-          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 2.8, 
+          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 4, 
                   controls.deltaX, value, controls.basisInt, controls.heightInt
                   )));
-          shape.position.set(controls.X, controls.Y, 1.201);
+          shape.position.set(controls.X, controls.Y, 0);
           shape.rotation.x = Math.PI/2.;
           shape.rotation.y = controls.Phi* Math.PI/2.;
           scene.add(shape); 
         });
         gui.add(controls, 'basisInt', -10.0, 10.0).onChange(function (value) {
           scene.remove(shape);
-          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 2.8, 
+          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 4, 
                   controls.deltaX, controls.deltaY, value, controls.heightInt
                   )));
-          shape.position.set(controls.X, controls.Y, 1.201);
+          shape.position.set(controls.X, controls.Y, 0);
           shape.rotation.x = Math.PI/2.;
           shape.rotation.y = controls.Phi* Math.PI/2.;
           scene.add(shape); 
         });
         gui.add(controls, 'heightInt', -10.0, 10.0).onChange(function (value) {
           scene.remove(shape);
-          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 2.8, 
+          shape = createMesh(new THREE.ShapeGeometry(drawShape(controls.basisExt, 4, 
                   controls.deltaX, controls.deltaY, controls.basisInt, value
                   )));
-          shape.position.set(controls.X, controls.Y, 1.201);
+          shape.position.set(controls.X, controls.Y, 0);
           shape.rotation.x = Math.PI/2.;
           shape.rotation.y = controls.Phi* Math.PI/2.;
           scene.add(shape); 
         });
-        gui.add(controls, 'timeState', ['Night', 'Day']).onChange(function (e){
-          if(e === 'Day'){
+        /*
+        gui.add(controls, 'Night').onChange(function (isNight){
+          if(isNight){
+            webGLRenderer.setClearColor(new THREE.Color(0x021E6C, 1.0));
+            scene.remove(slEst);
+            scene.remove(slOvest);
+            scene.remove(slNord);
+            scene.remove(slSud);
+            turnOnOffLamps(cLamps, true);
+          }else{
             webGLRenderer.setClearColor(new THREE.Color(0x62BDF5, 1.0));
-          }
+            slEst = new THREE.SpotLight(0xffffff);
+            slEst.position.set(30, 0, 10);
+            slEst.intensity = 0.4;
+            scene.add(slEst);
 
-          if(e === 'Night'){
-            webGLRenderer.setClearColor(new THREE.Color(0x1C15D5, 1.0));
-          }
+            slOvest = new THREE.SpotLight(0xffffff);  
+            slOvest.position.set(-30, 0, 40);
+            slOvest.intensity = 0.4;
+            scene.add(slOvest);
+
+            slNord = new THREE.SpotLight(0xffffff);
+            slNord.position.set(0, 30, 40);
+            slNord.intensity = 0.4;
+            scene.add(slNord);
+
+            slSud = new THREE.SpotLight(0xffffff);
+            slSud.position.set(0, -30, 40);
+            slSud.intensity = 0.4;
+            scene.add(slSud);
+            turnOnOffLamps(cLamps, false);
+          }    
         });
-
+*/
         
       
 
@@ -275,22 +287,17 @@
           vector.sub(camera.position).normalize());
 
         var intersects;
-
-
-        if (cLamps != undefined){
-          intersects = raycaster.intersectObjects(cLamps,true);
-          if (intersects.length > 0) {
-            intersects[0].object.parent.parent.parent.onMouseDown();
-          }
-         }
-
-        if (doors != undefined){ 
-          intersects = raycaster.intersectObjects(doors,true);
-          if (intersects.length > 0) {
-            intersects[0].object.parent.parent.onMouseDown();
-          }
-        }  
-             
+  /*
+        intersects = raycaster.intersectObjects(cLamps,true);
+        if (intersects.length > 0) {
+          intersects[0].object.parent.parent.parent.onMouseDown();
+        }
+      
+        intersects = raycaster.intersectObjects(doors,true);
+        if (intersects.length > 0) {
+          intersects[0].object.parent.parent.onMouseDown();
+        }      
+           */  
       }
 
 

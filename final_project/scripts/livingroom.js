@@ -1,7 +1,7 @@
 function addLivingroomOBJs(scene){
 
   mkCouch(scene, -4.2, 4, Math.PI/2);
-
+  mkTV(scene, -2, 4, -Math.PI/2);
 };
 
 function mkCouch(scene, Xaxis, Yaxis, Zrotation){
@@ -27,4 +27,29 @@ function mkCouch(scene, Xaxis, Yaxis, Zrotation){
 
   scene.add(couch);
   return couch;
+};
+
+function mkTV(scene, Xaxis, Yaxis, Zrotation){
+
+  var tv  = new THREE.Object3D();
+  tv.name = 'TV';
+  
+  var loader = new THREE.OBJMTLLoader();
+  loader.addEventListener('load', function (event) 
+  {  
+    var obj = event.content;
+    obj.name = 'objTv';
+    obj.scale.set(0.4, 0.4, 0.4);
+    
+    obj.position.set(Xaxis,Yaxis,3);
+    obj.rotation.set(Math.PI/2,Zrotation,0);
+    tv.add(obj);
+  });
+  loader.load('assets/models/TV.obj', 
+              '', 
+              {side: THREE.DoubleSide}
+             );
+
+  scene.add(tv);
+  return tv;
 };

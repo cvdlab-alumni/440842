@@ -1,17 +1,24 @@
 function addCeilingLamps(scene){
 
-  var cLamp1  = mkCeilingLamp(scene, -3.5,   -3);
-  var cLamp2  = mkCeilingLamp(scene,  3.5,    4);
+  var cLamp0  = mkCeilingLamp(scene, -3.5,    0);
+  var cLamp1  = mkCeilingLamp(scene, -3.5, -3.5);
+  var cLamp2  = mkCeilingLamp(scene,  3.5,  4.5);
   var cLamp3  = mkCeilingLamp(scene,    0,    3);
-  var cLamp4  = mkCeilingLamp(scene, -3.5,    4);
+  var cLamp4  = mkCeilingLamp(scene, -3.5,  4.5);
   var cLamp5  = mkCeilingLamp(scene,    0,  7.5);
   var cLamp6  = mkCeilingLamp(scene,    0,   -6);
   var cLamp7  = mkCeilingLamp(scene,  3.5, -3.5);
   var cLamp8  = mkCeilingLamp(scene,    4,  0.2);
   var cLamp9  = mkCeilingLamp(scene,   -1, -2.5);
   var cLamp10 = mkCeilingLamp(scene,    1, -2.5);
+ 
+  return new Array(cLamp0,cLamp1,cLamp2,cLamp3,cLamp4,cLamp5,cLamp6,cLamp7,cLamp8,cLamp9,cLamp10); 
+};
 
-  return new Array(cLamp1,cLamp2,cLamp3,cLamp4,cLamp5,cLamp6,cLamp7,cLamp8,cLamp9,cLamp10); 
+function turnOnOffLamps(lamps, isNight){
+  for (var i = 0; i < lamps.length; i++) {
+    lamps[i].spotLight.visible = isNight;
+  };
 };
 
 function mkCeilingLamp(scene, Xaxis, Yaxis){
