@@ -26,6 +26,9 @@ function addWallpapers(scene){
   scene.add(mkFloorpaper(    tRoomFloor,   3.5,  -3.4, 3.15,  4.6));
 
   //Bathroom 
+  scene.add(mkShapeWallpaper(tBathWall, 1.835, -4.3, 0, 1.9,  2.8, Math.PI, 1.07, 1.242, 0.415, 0.936));
+  scene.add(mkShapeWallpaper(tBathWall, -0.2, -4.3, 0, 1.4,  2.8, Math.PI, 0.23, 1.242, 0.415, 0.936));
+
   scene.add(mkWallpaper(tBathWall,  -1.555,  -2.56, 0,  3.51, 2.8,  Math.PI/2));
   scene.add(mkWallpaper(tBathWall,   -0.28,  -2.56, 0,  3.51, 2.8, -Math.PI/2));
   scene.add(mkWallpaper(tBathWall,    0.05,  -2.56, 0,  3.51, 2.8,  Math.PI/2));
@@ -82,6 +85,9 @@ function addWallpapers(scene){
   scene.add(mkWallpaper(tWhiteWall,  1.439, 5.895, 0,  0.32, 2.8,   -Math.PI/2));
 
   //Balcony Bottom
+  scene.add(mkShapeWallpaper(tWhiteWall, -1.555, -4.623,   0,   1.6,  2.8,       0, 0.715, 1.242, 0.415, 0.936));
+  scene.add(mkShapeWallpaper(tWhiteWall,  0.045, -4.623,   0,   1.8,  2.8,       0,   0.3, 1.242, 0.415, 0.936));
+
   scene.add(mkWallpaper(  tWhiteWall, -1.555, -4.725,      0, 0.204,  2.8,  Math.PI/2)); 
   scene.add(mkWallpaper(  tWhiteWall, -1.555, -5.758,      0, 0.485,  2.8,  Math.PI/2));
   scene.add(mkWallpaper(  tWhiteWall,  1.835, -5.301,      0,   1.4,  2.8, -Math.PI/2));
@@ -91,8 +97,6 @@ function addWallpapers(scene){
   scene.add(mkWallpaper(tBalconyWall, -1.861,  -6.76, -1.201,  1.52,  2.6, -Math.PI/2));
   scene.add(mkWallpaper(tBalconyWall,   0.14,  -7.51, -1.201,     4,  2.6,          0));
   scene.add(mkWallpaper(tBalconyWall,  2.141,  -6.76, -1.201,  1.52,  2.6,  Math.PI/2));
-
-  
 
   //Balcony Top
   scene.add(mkWallpaper(  tWhiteWall, -1.555,  6.19,      0,   0.3,  2.8,  Math.PI/2));
@@ -168,6 +172,7 @@ function createMesh(geom, texture) {
   mat.castShadow     = true;
   mat.receivedShadow = true;
 
+//var mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [mat]);
   var mesh = new THREE.Mesh(geom, mat);
   mesh.castShadow     = true;
   mesh.receivedShadow = true;
