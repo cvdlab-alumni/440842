@@ -7,6 +7,7 @@ function addBedroomOBJs(scene){
   mkDesktopPc(scene, 2.3, 5.5, Math.PI/2);
   mkBookcase(scene, 2.3, 3.3, 0);
   mkDresser(scene, 2.45, -3, 0);
+  mkCDrack(scene, 4.5, 2.5, Math.PI/2);
 };
 
 function mkDoubleBed(scene, Xaxis, Yaxis, Zrotation){
@@ -184,4 +185,28 @@ function mkDresser(scene, Xaxis, Yaxis, Zrotation){
 
   scene.add(dresser);
   return dresser;
+};
+
+function mkCDrack(scene, Xaxis, Yaxis, Zrotation){
+
+  var CDrack  = new THREE.Object3D();
+  CDrack.name = 'CDrack';
+  
+  var loaderExt = new THREE.OBJMTLLoader();
+  loaderExt.addEventListener('load', function (event) 
+  {  
+    var obj = event.content;
+    obj.name = 'objCDrack';
+    obj.scale.set(0.022, 0.022, 0.022);
+    obj.position.set(Xaxis,Yaxis,1.201);
+    obj.rotation.set(Math.PI/2,Zrotation,0);
+    CDrack.add(obj);
+  });
+  loaderExt.load('assets/models/CDrack.obj', 
+                 'assets/models/CDrack.mtl', 
+                 {side: THREE.DoubleSide}
+                );
+
+  scene.add(CDrack);
+  return CDrack;
 };

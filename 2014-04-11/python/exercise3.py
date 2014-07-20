@@ -30,4 +30,4 @@ def neighBuildings():
 def pantheonV3():
 	return STRUCT([pantheonV2(),T(3)(-__StairsHeight__),neighBuildings()])
 
-#VIEW(pantheonV3())
+VIEW(pantheonV3())

@@ -23,24 +23,27 @@
   <script type="text/javascript" src="assets/libs/Stats.min.js"></script>
   <script type="text/javascript" src="assets/libs/dat.gui.min.js"></script>
   <script type="text/javascript" src="assets/libs/TrackballControls.js"></script>
-  <script type="text/javascript" src="assets/libs/FirstPersonControls.js"></script>
   <script type="text/javascript" src="assets/libs/OBJLoader.js"></script> 
   <script type="text/javascript" src="assets/libs/MTLLoader.js"></script> 
   <script type="text/javascript" src="assets/libs/OBJMTLLoader.js"></script> 
+  <script type="text/javascript" src="assets/libs/Mirror.js"></script>  
 
   <script type="text/javascript" src="scripts/apartment.js"></script> 
   <script type="text/javascript" src="scripts/lamp.js"></script> 
   <script type="text/javascript" src="scripts/door.js"></script> 
   <script type="text/javascript" src="scripts/wallpaper.js"></script> 
   <script type="text/javascript" src="scripts/window.js"></script> 
+  <script type="text/javascript" src="scripts/mirrorObj.js"></script> 
   <script type="text/javascript" src="scripts/bathroom.js"></script> 
   <script type="text/javascript" src="scripts/bedroom.js"></script> 
   <script type="text/javascript" src="scripts/livingroom.js"></script> 
+  <script type="text/javascript" src="scripts/generalObjects.js"></script> 
   <!-- Javascript code that runs our Three.js examples --> 
   <script>
     // once everything is loaded, we run our Three.js stuff.
-    $(Document).ready(function () {
-      //var clock = new THREE.Clock();
+    $(document).ready(function () {
+
+      var clock = new THREE.Clock();
 
       var stats = initStats();
 
@@ -54,28 +57,13 @@
       camera.position.set(0, -10, 20);
       camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-      // create trackball controls
-      var trackballControls = new THREE.TrackballControls(camera);
-
-/*
-      var camControls = new THREE.FirstPersonControls(camera);
-      camControls.lookSpeed = 0.05;
-      camControls.movementSpeed = 2;
-      camControls.activeLook = true;
-      camControls.noFly = true;
-      camControls.lookVertical = true;
-      camControls.constrainVertical = true;
-     // camControls.verticalMin = 1.0;
-     // camControls.verticalMax = 2.0;
-      camControls.lon = -150;
-      camControls.lat = 120;
-*/
       // create a render and set the size
       var webGLRenderer = new THREE.WebGLRenderer();
       webGLRenderer.setClearColor(new THREE.Color(0x021E6C, 1.0));
       webGLRenderer.setSize(window.innerWidth, window.innerHeight);
       webGLRenderer.shadowMapEnabled = true;
-    
+
+      var controls = new THREE.TrackballControls(camera);
 
       var axisHelper = new THREE.AxisHelper(10);
       axisHelper.name = 'Axis';
@@ -84,7 +72,8 @@
       var projector = new THREE.Projector();
 
       // load apartment from obj  
-      var apartment = addApartment(scene); 
+      var apartment = addApartment(scene);
+
       addWallpapers(scene);       
 
       addBathroomOBJs(scene);      
@@ -99,9 +88,13 @@
       // Load Doors
       var doors = addDoors(scene); 
 
-      // Load Windows
-      var windows = addWindows(scene); 
+     // var mirrors = addMirrors(scene, webGLRenderer, camera);
+     // console.log(mirrors);
 
+      // Load Windows
+      addWindows(scene);
+
+      addGeneralOBJs(scene); 
 
       // add spotlight for the shadows
       var slEst,slOvest,slNord,slSud;
@@ -128,76 +121,66 @@
       scene.add(slSud);
 
 
-      var shape = createMesh(new THREE.ShapeGeometry(drawShape(2.001,2.001,0.501,0.501,1.001,1.001)));
-      shape.rotation.x = Math.PI/2.;
-      // add the sphere to the scene
-      scene.add(shape);
-
-
       // Add OnMouseDown Listener
       document.addEventListener('mousedown', onDocumentMouseDown, false);
 
       // add the output of the renderer to the html element
       $('body').append(webGLRenderer.domElement);
 
-      var controls = new function () {
-        //this.Night = true; 
+      var guiControls = new function () {
+        this.Night = true; 
+      };
 
-        };
+      var gui = new dat.GUI();
+      gui.add(guiControls, 'Night').onChange(function (isNight){
+        if(isNight){
+          webGLRenderer.setClearColor(new THREE.Color(0x021E6C, 1.0));
+          /*
+          scene.remove(slEst);
+          scene.remove(slOvest);
+          scene.remove(slNord);
+          scene.remove(slSud);
+          turnOnOffLamps(cLamps, true);
+          */
+        }else{
+          webGLRenderer.setClearColor(new THREE.Color(0x62BDF5, 1.0));
+          /*
+          slEst = new THREE.SpotLight(0xffffff);
+          slEst.position.set(30, 0, 10);
+          slEst.intensity = 0.4;
+          scene.add(slEst);
 
-        var gui = new dat.GUI();
-        /*
-        gui.add(controls, 'Night').onChange(function (isNight){
-          if(isNight){
-            webGLRenderer.setClearColor(new THREE.Color(0x021E6C, 1.0));
-            scene.remove(slEst);
-            scene.remove(slOvest);
-            scene.remove(slNord);
-            scene.remove(slSud);
-            turnOnOffLamps(cLamps, true);
-          }else{
-            webGLRenderer.setClearColor(new THREE.Color(0x62BDF5, 1.0));
-            slEst = new THREE.SpotLight(0xffffff);
-            slEst.position.set(30, 0, 10);
-            slEst.intensity = 0.4;
-            scene.add(slEst);
+          slOvest = new THREE.SpotLight(0xffffff);  
+          slOvest.position.set(-30, 0, 40);
+          slOvest.intensity = 0.4;
+          scene.add(slOvest);
 
-            slOvest = new THREE.SpotLight(0xffffff);  
-            slOvest.position.set(-30, 0, 40);
-            slOvest.intensity = 0.4;
-            scene.add(slOvest);
+          slNord = new THREE.SpotLight(0xffffff);
+          slNord.position.set(0, 30, 40);
+          slNord.intensity = 0.4;
+          scene.add(slNord);
 
-            slNord = new THREE.SpotLight(0xffffff);
-            slNord.position.set(0, 30, 40);
-            slNord.intensity = 0.4;
-            scene.add(slNord);
-
-            slSud = new THREE.SpotLight(0xffffff);
-            slSud.position.set(0, -30, 40);
-            slSud.intensity = 0.4;
-            scene.add(slSud);
-            turnOnOffLamps(cLamps, false);
-          }    
-        });
-*/
+          slSud = new THREE.SpotLight(0xffffff);
+          slSud.position.set(0, -30, 40);
+          slSud.intensity = 0.4;
+          scene.add(slSud);
+          turnOnOffLamps(cLamps, false);
+          */
+        }    
+      });
+  
         
-      
-
       render();
-
 
       function render() {
         stats.update();
 
-        /*
-        var delta = clock.getDelta();
-        camControls.update(delta);
-        */
-        trackballControls.update();
+        //renderMirrors();
 
-        // render using requestAnimationFrame
-        requestAnimationFrame(render);
+        controls.update();
+
         webGLRenderer.render(scene, camera);
+        requestAnimationFrame(render);
       }
 
       function initStats() {
@@ -210,7 +193,6 @@
       function onDocumentMouseDown (event) {
         event.preventDefault();
 
-        // map viewport coordinates in ([-1,1], [-1,1], 0.5)
         var vector = new THREE.Vector3(( event.clientX / window.innerWidth ) * 2 - 1, -( event.clientY / window.innerHeight ) * 2 + 1, 0.5);
         projector.unprojectVector(vector, camera);
 
@@ -218,19 +200,30 @@
           vector.sub(camera.position).normalize());
 
         var intersects;
-  /*
+        /*
         intersects = raycaster.intersectObjects(cLamps,true);
         if (intersects.length > 0) {
           intersects[0].object.parent.parent.parent.onMouseDown();
         }
-      
+        */
+
         intersects = raycaster.intersectObjects(doors,true);
         if (intersects.length > 0) {
           intersects[0].object.parent.parent.onMouseDown();
         }      
-           */  
+             
       }
 
+/*
+      function renderMirrors(){
+        
+        for (var i = 0; i < mirrors.length; i++) {
+          mirrors[i].mirror.render();
+          mirrors[i].mirror.matrixNeedsUpdate = true;
+        };
+        
+      }
+*/
     });
   </script>  
  </body>
