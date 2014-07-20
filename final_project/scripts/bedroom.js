@@ -1,13 +1,15 @@
 function addBedroomOBJs(scene){
 
-  mkDoubleBed(scene, -0.4, 3, -Math.PI/2);
-  mkBed(scene, 3.9, -5, 0);
-  mkDesk(scene, 3.4, 5.9, Math.PI/2);
-  mkOfficeChair(scene, 3.5, 5.5, -Math.PI/2);
-  mkDesktopPc(scene, 2.3, 5.5, Math.PI/2);
-  mkBookcase(scene, 2.3, 3.3, 0);
-  mkDresser(scene, 2.45, -3, 0);
-  mkCDrack(scene, 4.5, 2.5, Math.PI/2);
+  mkDoubleBed(   scene, -0.4,   3, -Math.PI/2);
+  mkBed(         scene,  3.9,  -5,          0);
+  mkDesk(        scene,  3.4, 5.9,  Math.PI/2);
+  mkOfficeChair( scene,  3.5, 5.5, -Math.PI/2);
+  mkDesktopPc(   scene,  2.3, 5.5,  Math.PI/2);
+  mkBookcase(    scene,  2.3, 3.3,          0);
+  mkDresser(     scene, 2.45,  -3,          0);
+  mkDresser(     scene,   -1.2,   5,          0);
+  mkCDrack(      scene,  4.5, 2.5,  Math.PI/2);
+  mkHighDresser( scene,  4.5,  -2, -Math.PI/2);
 };
 
 function mkDoubleBed(scene, Xaxis, Yaxis, Zrotation){
@@ -122,7 +124,6 @@ function mkDesktopPc(scene, Xaxis, Yaxis, Zrotation){
     var obj = event.content;
     obj.name = 'objiMacDesktop';
     obj.scale.set(0.07, 0.07, 0.07);
-    
     obj.position.set(Xaxis,Yaxis,2.23);
     obj.rotation.set(Math.PI/2,Zrotation,0);
     desktopPc.add(obj);
@@ -173,7 +174,10 @@ function mkDresser(scene, Xaxis, Yaxis, Zrotation){
     var obj = event.content;
     obj.name = 'objDresser';
     obj.scale.set(0.003, 0.003, 0.003);
-    
+    var texture = THREE.ImageUtils.loadTexture("assets/textures/Desk_wood.tga");
+    for (var i = 0; i < obj.children.length; i++) {
+      obj.children[i].material.map = texture;
+    };
     obj.position.set(Xaxis,Yaxis,1.53);
     obj.rotation.set(Math.PI/2,Zrotation,0);
     dresser.add(obj);
@@ -209,4 +213,29 @@ function mkCDrack(scene, Xaxis, Yaxis, Zrotation){
 
   scene.add(CDrack);
   return CDrack;
+};
+
+function mkHighDresser(scene, Xaxis, Yaxis, Zrotation){
+
+  var highDresser  = new THREE.Object3D();
+  highDresser.name = 'HighDresser';
+  
+  var loaderExt = new THREE.OBJMTLLoader();
+  loaderExt.addEventListener('load', function (event) 
+  {  
+    var obj = event.content;
+    obj.name = 'objHighDresser';
+    obj.scale.set(0.5, 0.5, 0.5);
+
+    obj.position.set(Xaxis,Yaxis,1.201);
+    obj.rotation.set(Math.PI/2,Zrotation,0);
+    highDresser.add(obj);
+  });
+  loaderExt.load('assets/models/highDresser.obj', 
+                 'assets/models/highDresser.mtl', 
+                 {side: THREE.DoubleSide}
+                );
+
+  scene.add(highDresser);
+  return highDresser;
 };

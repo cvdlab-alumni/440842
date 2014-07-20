@@ -72,7 +72,10 @@ function mkKitchenTable(scene, Xaxis, Yaxis, Zrotation){
     var obj = event.content;
     obj.name = 'objKitchenTable';
     obj.scale.set(0.012, 0.012, 0.012);
-    
+    var texture = THREE.ImageUtils.loadTexture("assets/textures/Desk_wood.tga");
+    for (var i = 0; i < obj.children.length; i++) {
+      obj.children[i].material.map = texture;
+    };
     obj.position.set(Xaxis,Yaxis,1.201);
     obj.rotation.set(Math.PI/2,Zrotation,0);
     kitchenTable.add(obj);

@@ -65,10 +65,6 @@
 
       var controls = new THREE.TrackballControls(camera);
 
-      var axisHelper = new THREE.AxisHelper(10);
-      axisHelper.name = 'Axis';
-      scene.add(axisHelper);
-
       var projector = new THREE.Projector();
 
       // load apartment from obj  
@@ -83,12 +79,12 @@
       addLivingroomOBJs(scene);    
       
       // Ceiling Lamps
-      //var cLamps = addCeilingLamps(scene);
+      var cLamps = addCeilingLamps(scene);
 
       // Load Doors
       var doors = addDoors(scene); 
 
-     // var mirrors = addMirrors(scene, webGLRenderer, camera);
+      var mirrors = addMirrors(scene, webGLRenderer, camera);
      // console.log(mirrors);
 
       // Load Windows
@@ -99,6 +95,7 @@
       // add spotlight for the shadows
       var slEst,slOvest,slNord,slSud;
 
+/*
       //RIMUOVERE PRIMA DELLA CONSEGNA E SBLOCCARE LA MODALITà NOTTE
       slEst = new THREE.SpotLight(0xffffff);
       slEst.position.set(30, 0, 10);
@@ -119,7 +116,7 @@
       slSud.position.set(0, -30, 40);
       slSud.intensity = 0.4;
       scene.add(slSud);
-
+*/
 
       // Add OnMouseDown Listener
       document.addEventListener('mousedown', onDocumentMouseDown, false);
@@ -135,16 +132,16 @@
       gui.add(guiControls, 'Night').onChange(function (isNight){
         if(isNight){
           webGLRenderer.setClearColor(new THREE.Color(0x021E6C, 1.0));
-          /*
+          
           scene.remove(slEst);
           scene.remove(slOvest);
           scene.remove(slNord);
           scene.remove(slSud);
           turnOnOffLamps(cLamps, true);
-          */
+          
         }else{
           webGLRenderer.setClearColor(new THREE.Color(0x62BDF5, 1.0));
-          /*
+          
           slEst = new THREE.SpotLight(0xffffff);
           slEst.position.set(30, 0, 10);
           slEst.intensity = 0.4;
@@ -165,7 +162,7 @@
           slSud.intensity = 0.4;
           scene.add(slSud);
           turnOnOffLamps(cLamps, false);
-          */
+          
         }    
       });
   
@@ -200,17 +197,18 @@
           vector.sub(camera.position).normalize());
 
         var intersects;
-        /*
+        
         intersects = raycaster.intersectObjects(cLamps,true);
         if (intersects.length > 0) {
           intersects[0].object.parent.parent.parent.onMouseDown();
         }
-        */
+        
 
         intersects = raycaster.intersectObjects(doors,true);
         if (intersects.length > 0) {
           intersects[0].object.parent.parent.onMouseDown();
-        }      
+        } 
+             
              
       }
 

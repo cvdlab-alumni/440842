@@ -1,10 +1,10 @@
 function addBathroomOBJs(scene){
   mkTub(               scene, 1.85,  -4.3,    Math.PI);
-  mkBathForniture(     scene, -1.5,  -3.5,  Math.PI/2);
   mkWater(             scene, -0.5, -3.95, -Math.PI/2);
   mkWater(             scene,  0.3,  -2.9,  Math.PI/2);
   mkBidet(             scene, -1.3,  -3.5,  Math.PI/2);
   mkWashbasin(         scene,    0,  -2.2,  Math.PI/2);
+  mkWashbasin(         scene, -1.6,  -2.5,  Math.PI/2);
 };
 
 
@@ -18,7 +18,7 @@ function mkTub(scene, Xaxis, Yaxis, Zrotation){
   {  
     var obj = event.content;
     obj.name = 'objTub';
-    //obj.scale.set(0.1, 0.1, 0.1);
+
     obj.position.set(Xaxis,Yaxis,1.201);
     obj.rotation.set(Math.PI/2,Zrotation,0);
     tub.add(obj);
@@ -30,31 +30,6 @@ function mkTub(scene, Xaxis, Yaxis, Zrotation){
   
   scene.add(tub);
   return tub;
-};
-
-
-function mkBathForniture(scene, Xaxis, Yaxis, Zrotation){
-
-  var bathForniture  = new THREE.Object3D();
-  bathForniture.name = 'BathForniture';
-  
-  var loader = new THREE.OBJMTLLoader();
-  loader.addEventListener('load', function (event) 
-  {  
-    var obj = event.content;
-    obj.name = 'objBathForniture';
-    obj.scale.set(0.013, 0.02, 0.013);
-    obj.position.set(Xaxis,Yaxis,1.201);
-    obj.rotation.set(Math.PI/2,Zrotation,0);
-    bathForniture.add(obj);
-  });
-  loader.load('assets/models/BathForniture.obj', 
-              'assets/models/BathForniture.mtl', 
-              {side: THREE.DoubleSide}
-             );
-  
-  scene.add(bathForniture);
-  return bathForniture;
 };
 
 
