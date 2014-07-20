@@ -85,7 +85,6 @@
       var doors = addDoors(scene); 
 
       var mirrors = addMirrors(scene, webGLRenderer, camera);
-     // console.log(mirrors);
 
       // Load Windows
       addWindows(scene);
@@ -94,29 +93,6 @@
 
       // add spotlight for the shadows
       var slEst,slOvest,slNord,slSud;
-
-/*
-      //RIMUOVERE PRIMA DELLA CONSEGNA E SBLOCCARE LA MODALITà NOTTE
-      slEst = new THREE.SpotLight(0xffffff);
-      slEst.position.set(30, 0, 10);
-      slEst.intensity = 0.4;
-      scene.add(slEst);
-
-      slOvest = new THREE.SpotLight(0xffffff);  
-      slOvest.position.set(-30, 0, 40);
-      slOvest.intensity = 0.4;
-      scene.add(slOvest);
-
-      slNord = new THREE.SpotLight(0xffffff);
-      slNord.position.set(0, 30, 40);
-      slNord.intensity = 0.4;
-      scene.add(slNord);
-
-      slSud = new THREE.SpotLight(0xffffff);
-      slSud.position.set(0, -30, 40);
-      slSud.intensity = 0.4;
-      scene.add(slSud);
-*/
 
       // Add OnMouseDown Listener
       document.addEventListener('mousedown', onDocumentMouseDown, false);
@@ -172,11 +148,12 @@
       function render() {
         stats.update();
 
-        //renderMirrors();
+        renderMirrors();
 
         controls.update();
 
         webGLRenderer.render(scene, camera);
+        
         requestAnimationFrame(render);
       }
 
@@ -198,30 +175,27 @@
 
         var intersects;
         
+        
         intersects = raycaster.intersectObjects(cLamps,true);
         if (intersects.length > 0) {
           intersects[0].object.parent.parent.parent.onMouseDown();
         }
         
-
         intersects = raycaster.intersectObjects(doors,true);
         if (intersects.length > 0) {
           intersects[0].object.parent.parent.onMouseDown();
-        } 
-             
+        }    
              
       }
 
-/*
-      function renderMirrors(){
-        
+      function renderMirrors(){        
         for (var i = 0; i < mirrors.length; i++) {
-          mirrors[i].mirror.render();
-          mirrors[i].mirror.matrixNeedsUpdate = true;
+          mirrors[i].children[0].mirror.render();
+          mirrors[i].children[0].mirror.matrixNeedsUpdate = true;
         };
-        
+      
       }
-*/
+
     });
   </script>  
  </body>

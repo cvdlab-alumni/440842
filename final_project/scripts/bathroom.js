@@ -1,6 +1,6 @@
 function addBathroomOBJs(scene){
   mkTub(               scene, 1.85,  -4.3,    Math.PI);
-  mkWater(             scene, -0.5, -3.95, -Math.PI/2);
+  mkWater(             scene, -0.5,  -3.3, -Math.PI/2);
   mkWater(             scene,  0.3,  -2.9,  Math.PI/2);
   mkBidet(             scene, -1.3,  -3.5,  Math.PI/2);
   mkWashbasin(         scene,    0,  -2.2,  Math.PI/2);
